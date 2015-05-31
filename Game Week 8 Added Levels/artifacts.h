@@ -9,6 +9,8 @@ public:
     bool isTrue();
     char returnChar();
     void setLetter(char passed);
+    void setIsShowing(bool option);
+    bool informIsShowing();
 private:
     bool isGotten;  //if the user got the artifact
     char letter;

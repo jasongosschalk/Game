@@ -1,16 +1,13 @@
 #include "mainwindow.h"
-
 #include "ui_mainwindow.h"
-#include<QRadioButton>
-#include<QPainter>
+
 
 MainWindow::MainWindow(QWidget *parent) :
-    QMainWindow(parent), mustRemake(true),
+    QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    createWindow();
-
+    createWindow(); //paints the board with the entry screen
 }
 
 void MainWindow::createWindow(){
@@ -96,10 +93,10 @@ void MainWindow::createWindow(){
     leftVBox->addWidget(middleWidgetLeft);
     //create the radioButtons to choose the ship
     cosmos = new QRadioButton;
-    cosmos->setText("Niel Degrasse Tyson's ship in cosmos");
+    cosmos->setText("Neil Degrasse Tyson's ship in cosmos");
     cosmos->setPalette(*fontColor);
     enterprise = new QRadioButton;
-    enterprise->setText("The Enterprise from Start Trek");
+    enterprise->setText("The Enterprise from Star Trek");
     enterprise->setPalette(*fontColor);
     shipGroup = new QButtonGroup(this);
     shipGroup->addButton(cosmos);
@@ -108,6 +105,8 @@ void MainWindow::createWindow(){
     leftSide->addWidget(enterprise);     //place radio button in second row, first column
     QSpacerItem *verticalSpaceLeft = new QSpacerItem(1, 272);
     leftVBox->addSpacerItem(verticalSpaceLeft);
+
+    //detect input from use about choice of ship
     connect(cosmos, SIGNAL(clicked()), this, SLOT(cosmosChoice()));
     connect(enterprise, SIGNAL(clicked()), this, SLOT(enterpriseChoice()));
 
@@ -118,60 +117,64 @@ void MainWindow::createWindow(){
     rightSide = new QVBoxLayout(middleWidgetRight);   //where the options for difficulty levels go
     QLabel *rightColumnExplanation = new QLabel;
     rightColumnExplanation->setText("<font color = white>Choose your preferred difficulty:</font>");
-    rightColumnExplanation->setWordWrap(true);
-    rightColumnExplanation->setAlignment(Qt::AlignCenter);
+    rightColumnExplanation->setWordWrap(true);  //so words don't run off the screen/out of the layout that's shown
+    rightColumnExplanation->setAlignment(Qt::AlignCenter);  //align the label in the center
     rightVBox->addWidget(rightColumnExplanation);
     rightVBox->addWidget(middleWidgetRight);
-    easy = new QRadioButton;
+    easy = new QRadioButton;    //when clicked will set difficulty to easy
     easy->setText("Easy");
     easy->setPalette(*fontColor);
-    medium = new QRadioButton;
+    medium = new QRadioButton;  //when clicked will set difficulty to medium
     medium->setText("Medium");
     medium->setPalette(*fontColor);
     hard = new QRadioButton;
-    hard->setText("Hard");
+    hard->setText("Hard");  //when clicked will set difficulty to hard
     hard->setPalette(*fontColor);
     difficultyGroup = new QButtonGroup(this);
-    difficultyGroup->addButton(easy);
+    difficultyGroup->addButton(easy);   //adds button to the difficulty layout
     difficultyGroup->addButton(medium);
     difficultyGroup->addButton(hard);
     rightSide->addWidget(easy);         //place radio button in first row first column
     rightSide->addWidget(medium);     //place radio button in second row, first column
     rightSide->addWidget(hard);     //place radio button in second row, first column
-    QSpacerItem *verticalSpaceRight = new QSpacerItem(1, 267);
+    QSpacerItem *verticalSpaceRight = new QSpacerItem(1, 267);  //to align to area desired
     rightVBox->addSpacerItem(verticalSpaceRight);
+
+    //to detect user input about choice of difficulty
     connect(easy, SIGNAL(clicked()), this, SLOT(setEasy()));
     connect(medium, SIGNAL(clicked()), this, SLOT(setMedium()));
     connect(hard, SIGNAL(clicked()), this, SLOT(setHard()));
 
 
     //Create the bottom of the game
-    start = new QPushButton;
+    start = new QPushButton;    //button used to start the game
     start->setText("Start!");
     bottom->addWidget(start);
-    QObject::connect(start, SIGNAL(clicked()), this, SLOT(GameBegin()));
+    QObject::connect(start, SIGNAL(clicked()), this, SLOT(gameBegin()));
 
-    directions = new QPushButton;
+    directions = new QPushButton;   //if the user wants instructions on how to play the game
     directions->setText("Instructions");
     bottom->addWidget(directions);
     QObject::connect(directions, SIGNAL(clicked()), this, SLOT(showInstructions()));
 
-    this->setCentralWidget(welcomePage);
+    this->setCentralWidget(welcomePage);        //adds the master layout to the central widget
     this->setWindowTitle("Astronomical Political Destruction");
     return;
 }
 
-
+/**
+    @brief destructor for the MainWindow class that deletes the ui and all of its children (RAII)*/
 MainWindow::~MainWindow()
 {
     delete ui;
 }
+
 /**
     @brief a public slot that begins a new game by creating a board object.  The user cannot create a new game unless they
             have selected a shipChoice and difficulty level
     @param none
     @return none*/
-void MainWindow::GameBegin(){
+void MainWindow::gameBegin(){
     if(shipChoice == 0 || difficulty == 0){
         QMessageBox warning;
         warning.setText("You must specify a ship and difficulty choice!");
@@ -180,6 +183,9 @@ void MainWindow::GameBegin(){
     }
     aboard = new Board(this, shipChoice, difficulty);
     this->setCentralWidget(aboard);
+
+    //when the aboard object is deleted, which happends when the game is lost, it will recreate the window!
+    connect(aboard, SIGNAL(destroyed()), this, SLOT(createWindow()));
 }
 /**
     @brief a public slot that shows a new window with instructions when the "Instructions" button is clicked

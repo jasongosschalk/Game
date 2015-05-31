@@ -43,14 +43,16 @@ public:
     explicit Board(QWidget *parent = 0, size_t shipChoice = 1, size_t difficulty = 1);
     void paintEvent(QPaintEvent *e);
     void showEvent(QShowEvent *e);
-    void closeEvent(QCloseEvent *c);
     void keyPressEvent(QKeyEvent *event);
     void updateShip(int px, int py, int nx, int ny);
     bool checkAsteroidCollision();  //checks to see if the bullet or asteroid collided with the ship
     bool checkBulletCollision();  //checks to see if the bullet or asteroid collided with the ship
     void catchArtifact(char lettre);
     void updateLives();
-    void gameOver();
+    void gameOver(int whichOne);
+    void gameWon();
+    void gameLost();
+
 
     ~Board();
 
@@ -90,6 +92,8 @@ private:
     std::vector<Artifacts*>::iterator check;
     //QLabel *artifactString;
     int winGame;
+    QTimer *timer;  //for the asteroids
+    QTimer *timer3; //for the artifacts
 
 };
 

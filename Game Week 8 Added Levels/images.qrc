@@ -12,8 +12,8 @@
         <file>enterprise.png</file>
         <file>heart.png</file>
         <file>sagan.png</file>
-        <file>bullet.png</file>
         <file>putin.jpg</file>
         <file>space.jpg</file>
+        <file>bullet.png</file>
     </qresource>
 </RCC>
