@@ -4,9 +4,18 @@
 
 
 Board::Board(QWidget *parent, size_t shipChoice, size_t difficulty) :
-    QWidget(parent),
-    ui(new Ui::Board)
+QWidget(parent),
+ui(new Ui::Board)
 {
+    ui->setupUi(this);
+    QWidget::setAttribute(Qt::WA_DeleteOnClose);    //instructs the compiler to delete this object when close() is called
+    makeBoard(shipChoice, difficulty);//draws out the entire board
+}
+
+
+/**
+ @brief this function draws the game board out and contains all timers, etc needed to make the game work. */
+void Board::makeBoard(size_t shipChoice, size_t difficulty){
 
     //default set values, which could be done in the header with c++11
     whichCollision = 0; //default set to zero, not in constructor in case user doesn't support c++11
@@ -15,9 +24,11 @@ Board::Board(QWidget *parent, size_t shipChoice, size_t difficulty) :
     boardSize = 10;
     numberAsteroids = 7;    //change this to add more asteroids to the game, shouldn't cause any code problems
     lifeCount=0;    //initialization of lifcount, determines how many lives user has
+    boardShipChoice = shipChoice;
+    boardDifficulty = difficulty;
+    //winGameTracker = 0;
 
-    ui->setupUi(this);
-    QWidget::setAttribute(Qt::WA_DeleteOnClose);    //instructs the compiler to delete this object when close() is called
+
     masterLayout = new QVBoxLayout;                 //sets the masterLayout to be inside the Master widget
 
 
@@ -79,7 +90,7 @@ Board::Board(QWidget *parent, size_t shipChoice, size_t difficulty) :
     gameplay->setSpacing(0);            //makes the spacing between the rectangles zero
 
     //create asteroids
-                                         //instructs to create a boardSize*BoardSize grid
+    //instructs to create a boardSize*BoardSize grid
     asteroid.load(":/images/asteroid.png");             //opens the image of the asteroid
     gamePlayLabel = new QLabel*[boardSize*boardSize];   //creates an array of labels
 
@@ -121,12 +132,13 @@ Board::Board(QWidget *parent, size_t shipChoice, size_t difficulty) :
     int asteroidTime = 0;
     int bulletTime = 0;
     //difficulty is a parameter passed from mainwindow.cpp when the game is started and Board object is created
-    if(difficulty == 1){    //if easy
+    if(boardDifficulty == 1){    //if easy
         asteroidTime = 150; //interval between refreshes of the asteroid
         bulletTime = 150;   //interval between refreshed of the bullet.
         //this sets up the vector of artifacts
-        winGame = 4;
-        for (int i=0, j=winGame; i<j; ++i){   //only need 4 artifacts
+        winGame = (difficulty *= 3); //first game would be 4
+        winGameTracker = winGame;   //to keep track of how many there should have been
+        for (int i=0, j=winGameTracker; i<j; ++i){   //only need 4 artifacts
             int number = rand() % 10; //was 20
             if(number == 0){
                 number+= rand() % 5;    //so that it's not directly above the ship
@@ -136,11 +148,12 @@ Board::Board(QWidget *parent, size_t shipChoice, size_t difficulty) :
         }
     }
     //difficulty is a parameter passed from mainwindow.cpp when the game is started and Board object is created
-    else if(difficulty == 2){   //if medium difficulty
+    else if(boardDifficulty == 2){   //if medium difficulty
         asteroidTime = 100;
         bulletTime = 100;
-        winGame = 6;
-        for (int i=0, j=winGame; i<j; ++i){   //need 6 artifacts for medium
+        winGame = (difficulty *= 3);
+        winGameTracker = 6;
+        for (int i=0, j=winGameTracker; i<j; ++i){   //need 6 artifacts for medium
             int number = rand() % 10; //was 20
             if(number == 0){
                 number+= rand() % 5;    //so that it's not directly above the ship
@@ -149,11 +162,12 @@ Board::Board(QWidget *parent, size_t shipChoice, size_t difficulty) :
             artifacts.push_back(new Artifacts(number, i));
         }
     }
-    else{   //if hard
+    else if (boardDifficulty == 3){   //if hard
         asteroidTime = 50;
         bulletTime = 50;
-        winGame = 10;
-        for (int i=0, j=winGame; i<j; ++i){  //more difficult, need to collect 10 artifacts
+        winGame = (difficulty *= 3); //first game would be 4
+        winGameTracker = winGame;   //to keep track of how many there should have been
+        for (int i=0, j=winGameTracker; i<j; ++i){  //more difficult, need to collect 10 artifacts
             int number = rand() % 10; //was 20
             if(number == 0){
                 number+= rand() % 5;    //so that it's not directly above the ship
@@ -166,7 +180,7 @@ Board::Board(QWidget *parent, size_t shipChoice, size_t difficulty) :
     //create the artifacts that have to be collected in order to win
     std::string randomLetters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     for(size_t i=0, j=artifacts.size(); i<j; ++i){
-        int randNum = rand()%27;    //a random number between 0 and 25
+        int randNum = rand()%26;    //a random number between 0 and 25
         artifacts[i]->setLetter(randomLetters[randNum]);    //sets the private variable of artifact element equal to a letter in the alphabet
     }
 
@@ -195,10 +209,10 @@ Board::Board(QWidget *parent, size_t shipChoice, size_t difficulty) :
     lifeCount = 4;
     bottom = new QWidget;
     bottom->setFixedHeight(100);
-    QGridLayout *bottomInfo = new QGridLayout(bottom);  //for the lives
+    bottomInfo = new QGridLayout(bottom);  //for the lives
     lives = new QLabel*[lifeCount];    //, a pointer of pointers or the loop doesnt work
-    QPixmap heart(":/images/heart.png");
-    QLabel *livesDescription = new QLabel;
+    heart.load(":/images/heart.png");
+    livesDescription = new QLabel;
     livesDescription->setText("<font size = 8><font color = white>Lives:</font>");
     bottomInfo->addWidget(livesDescription, 1, 1);
     //change this for loop to make more lives
@@ -228,14 +242,142 @@ Board::Board(QWidget *parent, size_t shipChoice, size_t difficulty) :
     //timer for showing artifacts on screen
     timer3 = new QTimer(this);
     connect(timer3, SIGNAL(timeout()), this, SLOT(showArtifact()));
-    timer3->start(100);
+    timer3->start(asteroidTime+30);
 
 
     masterLayout->addWidget(top);
     masterLayout->addWidget(middle);
     masterLayout->addWidget(bottom);
-
 }
+
+
+void Board::makeBoardAgain(size_t shipChoice, size_t difficulty){
+    lifeCount=0;
+    boardShipChoice = shipChoice;
+    boardDifficulty = difficulty;
+
+    //set up the difficulty of the game, including how
+    int asteroidTime = 0;
+    int bulletTime = 0;
+    //difficulty is a parameter passed from mainwindow.cpp when the game is started and Board object is created
+    if(boardDifficulty == 1){    //if easy
+        asteroidTime = 150; //interval between refreshes of the asteroid
+        bulletTime = 150;   //interval between refreshed of the bullet.
+        //this sets up the vector of artifacts
+        winGame = (difficulty * 3); //first game would be 4
+        winGameTracker = winGame;   //to keep track of how many there should have been
+        for (int i=(winGame-difficulty), j=winGameTracker; i<j; ++i){   //only need 4 artifacts
+            int number = rand() % 10; //was 20
+            if(number == 0){
+                number+= rand() % 5;    //so that it's not directly above the ship
+            }
+            //below code adds a new artifact to the vector at x = number, y=0(top of grid) and boardSize is passed to monitor how long asteroid stays on screen
+            artifacts.push_back(new Artifacts(number, i));
+        }
+    }
+    //difficulty is a parameter passed from mainwindow.cpp when the game is started and Board object is created
+    else if(boardDifficulty == 2){   //if medium difficulty
+        asteroidTime = 110;
+        bulletTime = 110;
+        winGame = (difficulty * 3);
+        winGameTracker = winGame;
+        for (int i=(winGame-difficulty), j=winGameTracker; i<j; ++i){   //need 6 artifacts for medium
+            int number = rand() % 10; //was 20
+            if(number == 0){
+                number+= rand() % 5;    //so that it's not directly above the ship
+            }
+            //below code adds a new artifact to the vector at x = number, y=0(top of grid) and boardSize is passed to monitor how long asteroid stays on screen
+            artifacts.push_back(new Artifacts(number, i));
+        }
+    }
+    else if (boardDifficulty == 3){   //if hard
+        asteroidTime = 80;
+        bulletTime = 80;
+        winGame = (difficulty * 3); //first game would be 4
+        winGameTracker = winGame;   //to keep track of how many there should have been
+        for (int i=(winGame-difficulty), j=winGameTracker; i<j; ++i){  //more difficult, need to collect 10 artifacts
+            int number = rand() % 10; //was 20
+            if(number == 0){
+                number+= rand() % 5;    //so that it's not directly above the ship
+            }
+            //below code adds a new artifact to the vector at x = number, y=0(top of grid) and boardSize is passed to monitor how long asteroid stays on screen
+            artifacts.push_back(new Artifacts(number, i));
+        }
+    }
+    else if (boardDifficulty == 4){   //if hard
+        asteroidTime = 60;
+        bulletTime = 60;
+        winGame = (difficulty * 3); //first game would be 4
+        winGameTracker = winGame;   //to keep track of how many there should have been
+        for (int i=(winGame-difficulty), j=winGameTracker; i<j; ++i){  //more difficult, need to collect 10 artifacts
+            int number = rand() % 10; //was 20
+            if(number == 0){
+                number+= rand() % 5;    //so that it's not directly above the ship
+            }
+            //below code adds a new artifact to the vector at x = number, y=0(top of grid) and boardSize is passed to monitor how long asteroid stays on screen
+            artifacts.push_back(new Artifacts(number, i));
+        }
+    }
+    else if (boardDifficulty == 5){   //if hard
+        asteroidTime = 50;
+        bulletTime = 50;
+        winGame = (difficulty * 3); //first game would be 4
+        winGameTracker = winGame;   //to keep track of how many there should have been
+        for (int i=(winGame-difficulty), j=winGameTracker; i<j; ++i){  //more difficult, need to collect 10 artifacts
+            int number = rand() % 10; //was 20
+            if(number == 0){
+                number+= rand() % 5;    //so that it's not directly above the ship
+            }
+            //below code adds a new artifact to the vector at x = number, y=0(top of grid) and boardSize is passed to monitor how long asteroid stays on screen
+            artifacts.push_back(new Artifacts(number, i));
+        }
+    }
+
+    //create the artifacts that have to be collected in order to win
+    std::string randomLetters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    for(size_t i=0, j=artifacts.size(); i<j; ++i){
+        int randNum = rand()%26;    //a random number between 0 and 25
+        artifacts[i]->setLetter(randomLetters[randNum]);    //sets the private variable of artifact element equal to a letter in the alphabet
+    }
+
+    {   //need to remake the vector to set all of the default values again!
+        std::vector<Artifacts*> temp;  //temprary vector to fill with the values of artifacts
+        for(size_t i = 0, j = artifacts.size(); i<j; ++i){
+            temp.push_back(new Artifacts(artifacts[i]->returnX(), artifacts[i]->returnY()));    //give the right location
+        }
+        for(size_t i = 0, j = artifacts.size(); i<j; ++i){
+            temp[i]->setLetter(artifacts[i]->returnChar());
+        }
+
+        std::swap(artifacts, temp); //swaps the two vectors
+        }   //temp goes out of scope here
+
+        lifeCount = 4;
+        livesDescription->setText("<font size = 8><font color = white>Lives:</font>");
+        bottomInfo->addWidget(livesDescription, 1, 1);
+    //change this for loop to make more lives
+        for (int i=0, j=lifeCount; i<j; ++i){
+            lives[i]->setScaledContents(true);
+            lives[i]->setPixmap(heart);
+            lives[i]->setFixedSize(80, 80);
+            bottomInfo->addWidget(lives[i], 1, i+2);
+        }
+
+    //set the iterator equal to the beginning of the artifacts vector
+    check = artifacts.begin();
+
+    //create space junk and bullet timing, this area is controlled by difficulty choice
+    timer = new QTimer(this);
+    connect(timer, SIGNAL(timeout()), this, SLOT(updateAsteroids()));
+    timer->start(asteroidTime);
+
+    artifactVisible = false;    //must be set to false for the artifact code to work!
+    //timer for showing artifacts on screen
+    timer3 = new QTimer(this);
+    connect(timer3, SIGNAL(timeout()), this, SLOT(showArtifact()));
+    timer3->start(asteroidTime+40);
+}
+
 /**
     @brief board destructor should delete all memory it creates, meaning delete needs to be called on all manually created memory
             which is various polymorhpic objects of BoardObject class
@@ -270,7 +412,7 @@ void Board::keyPressEvent(QKeyEvent *event){
 
     switch (event->key()) {
     case Qt::Key_A:{
-        if((*check)->returnChar() == 'A'){
+        {
             catchArtifact(char('A'));
             //--winGame;
             //(*check)->setTrue();
@@ -278,7 +420,7 @@ void Board::keyPressEvent(QKeyEvent *event){
         break;
     }
     case Qt::Key_B:{
-        if((*check)->returnChar() == 'B'){
+        {
             catchArtifact(char('B'));
             //--winGame;
             //(*check)->setTrue();
@@ -286,7 +428,7 @@ void Board::keyPressEvent(QKeyEvent *event){
         break;
     }
     case Qt::Key_C:{
-        if((*check)->returnChar() == 'C'){
+        {
             catchArtifact(char('C'));
             //--winGame;
             //(*check)->setTrue();
@@ -294,7 +436,7 @@ void Board::keyPressEvent(QKeyEvent *event){
         break;
     }
     case Qt::Key_D:{
-        if((*check)->returnChar() == 'D'){
+        {
             catchArtifact(char('D'));
             //--winGame;
             //(*check)->setTrue();
@@ -302,7 +444,7 @@ void Board::keyPressEvent(QKeyEvent *event){
         break;
     }
     case Qt::Key_E:{
-        if((*check)->returnChar() == 'E'){
+        {
             catchArtifact(char('E'));
             //--winGame;
             //(*check)->setTrue();
@@ -310,7 +452,7 @@ void Board::keyPressEvent(QKeyEvent *event){
         break;
     }
     case Qt::Key_F:{
-        if((*check)->returnChar() == 'F'){
+        {
             catchArtifact(char('F'));
             //--winGame;
             //(*check)->setTrue();
@@ -318,7 +460,7 @@ void Board::keyPressEvent(QKeyEvent *event){
         break;
     }
     case Qt::Key_G:{
-        if((*check)->returnChar() == 'G'){
+        {
             catchArtifact(char('G'));
             //--winGame;
             //(*check)->setTrue();
@@ -326,7 +468,7 @@ void Board::keyPressEvent(QKeyEvent *event){
         break;
     }
     case Qt::Key_H:{
-        if((*check)->returnChar() == 'H'){
+        {
             catchArtifact(char('H'));
             //--winGame;
             //(*check)->setTrue();
@@ -334,7 +476,7 @@ void Board::keyPressEvent(QKeyEvent *event){
         break;
     }
     case Qt::Key_I:{
-        if((*check)->returnChar() == 'I'){
+        {
             catchArtifact(char('I'));
             //--winGame;
             //(*check)->setTrue();
@@ -342,7 +484,7 @@ void Board::keyPressEvent(QKeyEvent *event){
         break;
     }
     case Qt::Key_J:{
-        if((*check)->returnChar() == 'J'){
+        {
             catchArtifact(char('J'));
             //--winGame;
             //(*check)->setTrue();
@@ -350,7 +492,7 @@ void Board::keyPressEvent(QKeyEvent *event){
         break;
     }
     case Qt::Key_K:{
-        if((*check)->returnChar() == 'K'){
+        {
             catchArtifact(char('K'));
             //--winGame;
             //(*check)->setTrue();
@@ -358,7 +500,7 @@ void Board::keyPressEvent(QKeyEvent *event){
         break;
     }
     case Qt::Key_L:{
-        if((*check)->returnChar() == 'L'){
+        {
             catchArtifact(char('L'));
             //--winGame;
             //(*check)->setTrue();
@@ -366,7 +508,7 @@ void Board::keyPressEvent(QKeyEvent *event){
         break;
     }
     case Qt::Key_M:{
-        if((*check)->returnChar() == 'M'){
+        {
             catchArtifact(char('M'));
             //--winGame;
             //(*check)->setTrue();
@@ -374,7 +516,7 @@ void Board::keyPressEvent(QKeyEvent *event){
         break;
     }
     case Qt::Key_N:{
-        if((*check)->returnChar() == 'N'){
+       {
             catchArtifact(char('N'));
             //--winGame;
             //(*check)->setTrue();
@@ -382,7 +524,7 @@ void Board::keyPressEvent(QKeyEvent *event){
         break;
     }
     case Qt::Key_O:{
-        if((*check)->returnChar() == 'O'){
+        {
             catchArtifact(char('O'));
             //--winGame;
             //(*check)->setTrue();
@@ -390,7 +532,7 @@ void Board::keyPressEvent(QKeyEvent *event){
         break;
     }
     case Qt::Key_P:{
-        if((*check)->returnChar() == 'P'){
+        {
             catchArtifact(char('P'));
             //--winGame;
             //(*check)->setTrue();
@@ -398,7 +540,7 @@ void Board::keyPressEvent(QKeyEvent *event){
         break;
     }
     case Qt::Key_Q:{
-        if((*check)->returnChar() == 'Q'){
+       {
             catchArtifact(char('Q'));
 //            --winGame;
 //            (*check)->setTrue();
@@ -406,7 +548,7 @@ void Board::keyPressEvent(QKeyEvent *event){
         break;
     }
     case Qt::Key_R:{
-        if((*check)->returnChar() == 'R'){
+        {
             catchArtifact(char('R'));
 //            --winGame;
 //            (*check)->setTrue();
@@ -414,7 +556,7 @@ void Board::keyPressEvent(QKeyEvent *event){
         break;
     }
     case Qt::Key_S:{
-        if((*check)->returnChar() == 'S'){
+       {
             catchArtifact(char('S'));
 //            --winGame;
 //            (*check)->setTrue();
@@ -422,7 +564,7 @@ void Board::keyPressEvent(QKeyEvent *event){
         break;
         }
     case Qt::Key_T:{
-        if((*check)->returnChar() == 'T'){
+        {
             catchArtifact(char('T'));
 //            --winGame;
 //            (*check)->setTrue();
@@ -430,7 +572,7 @@ void Board::keyPressEvent(QKeyEvent *event){
         break;
     }
     case Qt::Key_U:{
-        if((*check)->returnChar() == 'U'){
+       {
             catchArtifact(char('U'));
 //            --winGame;
 //            (*check)->setTrue();
@@ -438,7 +580,7 @@ void Board::keyPressEvent(QKeyEvent *event){
         break;
     }
     case Qt::Key_V:{
-        if((*check)->returnChar() == 'V'){
+        {
             catchArtifact(char('V'));
 //            --winGame;
 //            (*check)->setTrue();
@@ -446,7 +588,7 @@ void Board::keyPressEvent(QKeyEvent *event){
         break;
     }
     case Qt::Key_W:{
-        if((*check)->returnChar() == 'W'){
+      {
             catchArtifact(char('W'));
 //            --winGame;
 //            (*check)->setTrue();
@@ -454,7 +596,7 @@ void Board::keyPressEvent(QKeyEvent *event){
         break;
     }
     case Qt::Key_X:{
-        if((*check)->returnChar() == 'X'){
+        {
             catchArtifact(char('X'));
 //            --winGame;
 //            (*check)->setTrue();
@@ -462,7 +604,7 @@ void Board::keyPressEvent(QKeyEvent *event){
         break;
     }
     case Qt::Key_Y:{
-        if((*check)->returnChar() == 'Y'){
+        {
             catchArtifact(char('Y'));
 //            --winGame;
 //            (*check)->setTrue();
@@ -470,7 +612,7 @@ void Board::keyPressEvent(QKeyEvent *event){
         break;
     }
     case Qt::Key_Z:{
-        if((*check)->returnChar() == 'Z'){
+        {
             catchArtifact(char('Z'));
 //            --winGame;
 //            (*check)->setTrue();
@@ -521,64 +663,7 @@ void Board::keyPressEvent(QKeyEvent *event){
             again, just the thing that called it (hend why the whichPainEvent value is always reset to zero before the PaintEvent overload is exited.
     @param e is nothing, just required by overload definition of this function.*/
 void Board::paintEvent(QPaintEvent *e) {
-    std::cout<<"Paintevent"<<std::endl;
-    if(whenToStart == 0){
-        return;
-    }
-
-//    int x = shipPosition->returnX();
-//    int y = shipPosition->returnY();
-//    gamePlayLabel[y*boardSize+x]->setPixmap(shipPic);
-//    gamePlayLabel[y*boardSize+x]->setScaledContents(true);
-//    gamePlayLabel[y*boardSize+x]->setFixedSize(50,50);
-//    whichPaintEvent = 0;
-
-    //we don't want asteroids getting added before their time of proper initialization at game beginning!
-    //paintevent gets called before it's time to initialize the asteroids, so this if statement protects placement errors
-    //the syntax of this for loop is designed to prevent code repeats.  instead of having multiples of code to paint asteroids, this just only calls the code if it's time.
-
-    //update the asteroid positions via a standard for loop
-//    for(size_t i=0, j = asteroidLocations.size(); i<j; ++i) {
-//        int px = asteroidLocations[i]->returnX();
-//        int py = asteroidLocations[i]->returnY();
-//        int oldX = asteroidLocations[i]->returnOldX();
-//        int oldY = asteroidLocations[i]->returnOldY();
-//        gamePlayLabel[oldY*boardSize+oldX]->clear();
-//        gamePlayLabel[py*boardSize+px]->setPixmap(asteroid);
-//        gamePlayLabel[py*boardSize+px]->setScaledContents(true);
-//        gamePlayLabel[py*boardSize+px]->setFixedSize(60,60);
-//    }
-//    for(size_t i=0, j = bulletLocations.size(); i<j; ++i) {
-//        int px = bulletLocations[i]->returnX();
-//        int py = bulletLocations[i]->returnY();
-//        int oldX = bulletLocations[i]->returnOldX();
-//        int oldY = bulletLocations[i]->returnOldY();
-
-//        gamePlayLabel[oldY*boardSize+oldX]->clear();
-//        gamePlayLabel[py*boardSize+px]->setPixmap(bullet);
-//        gamePlayLabel[py*boardSize+px]->setScaledContents(true);
-//        gamePlayLabel[py*boardSize+px]->setFixedSize(45,55);
-//    }
-
-//    if(check != artifacts.end() && ((*check)->informIsShowing() == true)){   //if there is an artifact to show and it should be shown
-//        QChar theChar = (*check)->returnChar(); //creates a Qt character with the letter from the object of choice
-
-//        //reset the board to move the object down
-//        int px = (*check)->returnX();
-//        int py = (*check)->returnY();
-//        int oldX = (*check)->returnOldX();
-//        int oldY = (*check)->returnOldY();
-
-//        gamePlayLabel[oldY*boardSize+oldX]->clear();
-//        gamePlayLabel[oldY*boardSize+oldX]->setStyleSheet("background-color: rgba(0,0,0,0%)");
-//        gamePlayLabel[py*boardSize+px]->setText(theChar);
-//        gamePlayLabel[py*boardSize+px]->setFixedSize(15,25);
-//        gamePlayLabel[py*boardSize+px]->setTextFormat(Qt::RichText);
-//        gamePlayLabel[py*boardSize+px]->setStyleSheet("QLabel { background-color : rgba(0,0,0,0%); color : white; }");
-//        gamePlayLabel[py*boardSize+px]->setScaledContents(true);
-//    }
-
-
+    std::cout<<"Paintevent"<<std::endl;\
     return;
 }
 
@@ -622,15 +707,6 @@ void Board::updateShip(int px, int py, int nx, int ny) {
 
     update();
     QCoreApplication::processEvents();
-
-    //checkCollision();
-
-
-//    update();
-//    QCoreApplication::processEvents();
-;
-;
-//    return (px==nx)&&(py==ny);
 }
 
 /**
@@ -908,14 +984,57 @@ void Board::showArtifact(){
 void Board::catchArtifact(char lettre){
     std::cout<<"catchArtifact"<<std::endl;
 
-    //if the letter pressed is the correct letter and the artifact is actually showing at the moment
-    if ((*check)->returnChar() == lettre && (*check)->informIsShowing()){
-        --winGame;  //decrements the number of artifacts required to win the game now.
-        (*check)->setTrue();    //means it has been collected, so that next time, the iterator will be set to the next element in the vector.
+    if(check != artifacts.end()){   //JUST IN CASE THIS GETS CALLED WHEN *CHECK IS NULLPTR
+        //if the letter pressed is the correct letter and the artifact is actually showing at the moment
+        if ((*check)->returnChar() == lettre && (*check)->informIsShowing() && (!(*check)->isTrue())){
+            std::cout<<"catchArtifact3"<<std::endl;
+
+            --winGame;  //decrements the number of artifacts required to win the game now.
+            (*check)->setTrue();    //means it has been collected, so that next time, the iterator will be set to the next element in the vector.
+            std::cout<<"catchArtifact4"<<std::endl;
+
+        }
+        else{return;}
+        if(winGame <= 0){
+            std::cout<<"catchArtifact5"<<std::endl;
+            levelUp();
+            //gameOver(2); //calls gameOver to end game
+        }
     }
-    if(winGame <= 0){
-        gameOver(2); //calls gameOver to end game
-    }
+        std::cout<<"catchArtifact6"<<std::endl;
+
     return;
 }
+/**
+    @brief this function will level up the game to make it more difficult, if */
+void Board::levelUp(){
+    winGameTracker +=3; //adds three more artifacts that need to be collected
+    ++boardDifficulty;  //makes the level go up one
+    if(boardDifficulty == 3){
+        gameOver(2);    //you won!
+    }
+    else {
+        timer->stop();  //stop the timer
+        timer3->stop(); //stop the timer
+        levelUpAlert(); //"you leveled up!
+        makeBoardAgain(boardShipChoice, boardDifficulty);
+        //Board *newBoard = new Board(this, boardShipChoice, boardDifficulty);
+        //this->close();
+        //newBoard->show();
+        //connect(this, SIGNAL(destroyed()), this, SLOT(newBoard->show();));    //deletes this if the previous was deleted, meanign it was deleted meaning user lost
+        //makeBoard(boardShipChoice, boardDifficulty);   //same ship, difficulty is incremented by one.
+    }
+
+    return;
+}
+
+void Board::levelUpAlert(){
+    std::cout<<"levelUpAlert"<<std::endl;
+
+    QMessageBox levelUpMessage;
+    levelUpMessage.setText("You leveled up!");
+    levelUpMessage.exec();
+    return;
+}
+
 

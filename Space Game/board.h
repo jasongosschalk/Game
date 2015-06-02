@@ -29,6 +29,8 @@
 #include<cmath>
 #include<vector>
 #include<QMessageBox>
+#include<QProcess>
+#include<QStackedWidget>
 
 namespace Ui {
 class Board;
@@ -49,10 +51,13 @@ public:
     bool checkBulletCollision();  //checks to see if the bullet or asteroid collided with the ship
     void catchArtifact(char lettre);
     void updateLives();
-    void gameOver(int whichOne);
     void gameWon();
     void gameLost();
+    void makeBoard(size_t shipChoice, size_t difficulty);//draws the board out
+    void makeBoardAgain(size_t shipChoice, size_t difficulty);
 
+    void levelUp();
+    void levelUpAlert();
 
     ~Board();
 
@@ -60,6 +65,8 @@ public slots:
        void updateAsteroids();
        void updateBullets();
        void showArtifact();
+       void gameOver(int whichOne);
+
        //void closeTime();
 
 private:
@@ -78,9 +85,12 @@ private:
     QLabel **gamePlayLabel;
     QLabel *shipLabel;
     QLabel **lives;
+    QLabel *livesDescription;
+    QGridLayout *bottomInfo;
     QPixmap asteroid;
     QPixmap shipPic;
     QPixmap bullet;
+    QPixmap heart;
     size_t numberAsteroids;
     int lifeCount;
     size_t boardSize;
@@ -91,9 +101,12 @@ private:
     bool artifactVisible;
     std::vector<Artifacts*>::iterator check;
     //QLabel *artifactString;
-    int winGame;
+    int winGame;            //tracks how many artifacts are collected.
     QTimer *timer;  //for the asteroids
     QTimer *timer3; //for the artifacts
+    size_t boardDifficulty;
+    size_t boardShipChoice;
+    size_t winGameTracker;  //helper value to remember what the value of artifact collection was
 
 };
 
