@@ -184,8 +184,10 @@ void MainWindow::gameBegin(){
     aboard = new Board(this, shipChoice, difficulty);
     this->setCentralWidget(aboard);
 
-    //when the aboard object is deleted, which happends when the game is lost, it will recreate the window!
+    //when the aboard object is deleted, which happens when the game is lost, it will send out the destroyed signal and recreate the window!
     connect(aboard, SIGNAL(destroyed()), this, SLOT(createWindow()));
+    connect(aboard, SIGNAL(destroyed()), this, SLOT(repaint()));
+    QCoreApplication::processEvents();
 }
 /**
     @brief a public slot that shows a new window with instructions when the "Instructions" button is clicked
