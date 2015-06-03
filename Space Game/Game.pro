@@ -26,7 +26,8 @@ HEADERS  += mainwindow.h \
     ship.h \
     boardobject.h \
     asteroid.h \
-    artifacts.h
+    artifacts.h \
+    documentation.h
 
 FORMS    += \
     board.ui \

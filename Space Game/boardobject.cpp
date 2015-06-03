@@ -81,7 +81,7 @@ BoardObject& BoardObject::operator--(){
     @param x is the x value of the ship
     @param y is the y value of the ship
     @return is a boolean value and is true if they are at the same point, false otherwise*/
-bool BoardObject::ifBoardObjectCollision(int x, int y){
+bool BoardObject::ifBoardObjectCollision(size_t x, size_t y){
     if(currentX == x && currentY == y){  //if the ship and asteroid share the exact same coordinates
         return true;
     }

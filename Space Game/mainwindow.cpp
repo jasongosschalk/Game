@@ -10,6 +10,9 @@ MainWindow::MainWindow(QWidget *parent) :
     createWindow(); //paints the board with the entry screen
 }
 
+/**
+    @brief this function draws the mainwindow
+    */
 void MainWindow::createWindow(){
     shipChoice = 0; //default set to zero in case user does not have c++11
     difficulty = 0; //default set to zero in case user does not have c++11
@@ -206,11 +209,12 @@ void MainWindow::showInstructions(){
 
     QVBoxLayout *mainInstructions = new QVBoxLayout(instructionsPage);
     QLabel *instructionsText = new QLabel;
-    instructionsText->setText("<font color = white><font size = 5>The goal is simple: survive.  The politicians have finally destroyed the planet and humanity has looked to space "
+    instructionsText->setText("<font color = white><font size = 5>"
+                              "The goal is simple: survive.  The politicians have finally destroyed the planet and humanity has looked to space "
                               "for refuge.  Your friends behind you aren't the best shot!  Watch out for friendly fire as their bullets may almost "
                               "get you.  In order to win, you must collect"
                               " all of the letters on the screen by pressing the letter you see on the keyboard.  Once you've collected enough artifacts, you win."
-                              " Good luck!</font>");
+                              " the more you collect, the faster the game starts to go.  Good luck!</font>");
     mainInstructions->addWidget(instructionsText);
     instructionsText->setWordWrap(true);
 

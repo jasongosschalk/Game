@@ -35,7 +35,10 @@
 namespace Ui {
 class Board;
 }
-
+/**
+    @class Board
+    @brief this class created the gameplay board and is called from the mainwindow.cpp file.  it is used to draw every part of the game and contains code
+            for the interactivity, etc.  It uses boardObjects.*/
 class Board : public QWidget
 {
     Q_OBJECT
@@ -77,6 +80,7 @@ private:
     QWidget *bottom;  //where the score is and everything else is black
     QVBoxLayout *masterLayout;
     QHBoxLayout *enemies;
+    QPushButton *quit;
     QGridLayout *gameplay;
     Ship *shipPosition;
     std::vector<Asteroid*> asteroidLocations;   //vector of pointers to Asteroid objects

@@ -5,7 +5,9 @@
 #include<vector>
 
 
-/**@brief this class handles the asteroids: where they are on the screen and how long they are on the screen*/
+/**
+    @class  this class handles the asteroids: where they are on the screen and how long they are on the screen
+    @brief this class contains the code required for everything having to do with objects on the board, including their location.*/
 class BoardObject
 {
 public:
@@ -23,7 +25,7 @@ public:
     bool asteroidLife();
     BoardObject& operator++(); //prefix operator decrement overload
     BoardObject& operator--(); //prefix operator decrement overload
-    bool ifBoardObjectCollision(int x, int y);
+    bool ifBoardObjectCollision(size_t x, size_t y);
 
 
 

@@ -8,12 +8,6 @@
     @param y is the y value of the ship
     @return is a boolean value and is true if they are at the same point, false otherwise*/
 bool Asteroid::ifAsteroidCollision(int x, int y){
-
     return ifBoardObjectCollision(x,y);
-    /*if (currentX == x && currentY == y){    //if the bullet and the ship share the exact same values
-        return true;
-    }
-    else return false;
-    */
 }
 

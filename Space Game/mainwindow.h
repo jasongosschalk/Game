@@ -25,6 +25,10 @@ namespace Ui {
 class MainWindow;
 }
 
+/**
+    @class MainWindow
+    @brief this class is what the user sees when the program opens.  It contains information about the instructions of the game
+            and gives the user options to vary the game.*/
 class MainWindow : public QMainWindow
 {
     Q_OBJECT

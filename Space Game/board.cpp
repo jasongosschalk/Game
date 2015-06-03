@@ -14,7 +14,9 @@ ui(new Ui::Board)
 
 
 /**
- @brief this function draws the game board out and contains all timers, etc needed to make the game work. */
+    @brief this function draws the game board out and contains all timers, etc needed to make the game work.
+    @param shipChoice is used to select the appropriate ship
+    @param difficulty is used to set the speed of the asteroid and bullets.*/
 void Board::makeBoard(size_t shipChoice, size_t difficulty){
 
     //default set values, which could be done in the header with c++11
@@ -22,7 +24,7 @@ void Board::makeBoard(size_t shipChoice, size_t difficulty){
     whenToStart = 0;    //in case user constructor doesn;t support c++11
     numberEnemies = 0;  //this is so that if there are ever more enemies added, there will automatically be a bullet shot from them as long as the ++numberEnemies is added
     boardSize = 10;
-    numberAsteroids = 7;    //change this to add more asteroids to the game, shouldn't cause any code problems
+    numberAsteroids = 3;    //change this to add more asteroids to the game, shouldn't cause any code problems
     lifeCount=0;    //initialization of lifcount, determines how many lives user has
     boardShipChoice = shipChoice;
     boardDifficulty = difficulty;
@@ -112,7 +114,7 @@ void Board::makeBoard(size_t shipChoice, size_t difficulty){
 
     //this loop adds asteroids onto the board by giving them their original starting point
     for (int i=0, j=numberAsteroids; i<j; ++i){
-        int number = rand() % 10; //because the board is sized 10
+        int number = (rand() % 9)+1; //because the board is sized 10
         if(number == 0){        //we don't want anything starting in the 0 row because
             number+= rand() % 5;    //so that it's not directly above the ship
         }
@@ -149,8 +151,8 @@ void Board::makeBoard(size_t shipChoice, size_t difficulty){
     }
     //difficulty is a parameter passed from mainwindow.cpp when the game is started and Board object is created
     else if(boardDifficulty == 2){   //if medium difficulty
-        asteroidTime = 100;
-        bulletTime = 100;
+        asteroidTime = 120;
+        bulletTime = 120;
         winGame = (difficulty *= 3);
         winGameTracker = 6;
         for (int i=0, j=winGameTracker; i<j; ++i){   //need 6 artifacts for medium
@@ -163,8 +165,8 @@ void Board::makeBoard(size_t shipChoice, size_t difficulty){
         }
     }
     else if (boardDifficulty == 3){   //if hard
-        asteroidTime = 50;
-        bulletTime = 50;
+        asteroidTime = 90;
+        bulletTime = 90;
         winGame = (difficulty *= 3); //first game would be 4
         winGameTracker = winGame;   //to keep track of how many there should have been
         for (int i=0, j=winGameTracker; i<j; ++i){  //more difficult, need to collect 10 artifacts
@@ -208,7 +210,7 @@ void Board::makeBoard(size_t shipChoice, size_t difficulty){
     //create bottom score area
     lifeCount = 4;
     bottom = new QWidget;
-    bottom->setFixedHeight(100);
+    bottom->setFixedHeight(70);
     bottomInfo = new QGridLayout(bottom);  //for the lives
     lives = new QLabel*[lifeCount];    //, a pointer of pointers or the loop doesnt work
     heart.load(":/images/heart.png");
@@ -220,13 +222,23 @@ void Board::makeBoard(size_t shipChoice, size_t difficulty){
         lives[i] = new QLabel;
         lives[i]->setScaledContents(true);
         lives[i]->setPixmap(heart);
-        lives[i]->setFixedSize(80, 80);
+        lives[i]->setFixedSize(65, 65);
         bottomInfo->addWidget(lives[i], 1, i+2);
     }
 
 
 
+    quit = new QPushButton;
+    quit->setText("Quit");
+    connect(quit, SIGNAL(clicked()), this, SLOT(close()));
 
+    QVBoxLayout *bottomStuff = new QVBoxLayout;
+    bottomStuff->addWidget(bottom);
+    bottomStuff->addWidget(quit);
+
+    masterLayout->addWidget(top);
+    masterLayout->addWidget(middle);
+    masterLayout->addLayout(bottomStuff);
     this->setFixedSize(600,600);
     this->setLayout(masterLayout);
 
@@ -245,12 +257,14 @@ void Board::makeBoard(size_t shipChoice, size_t difficulty){
     timer3->start(asteroidTime+30);
 
 
-    masterLayout->addWidget(top);
-    masterLayout->addWidget(middle);
-    masterLayout->addWidget(bottom);
+
 }
 
-
+/**
+    @brief this is called when the user advances a level, by the function levelUp.  it is used to speed up objects and increase the amount of
+            artifacts required.
+    @param shipChoice is used to make sure the ship choice is the same, but not needed
+    @param difficulty is the new difficulty that will be used to update the speeds and overall difficulty of everything */
 void Board::makeBoardAgain(size_t shipChoice, size_t difficulty){
     lifeCount=0;
     boardShipChoice = shipChoice;
@@ -259,6 +273,9 @@ void Board::makeBoardAgain(size_t shipChoice, size_t difficulty){
     //set up the difficulty of the game, including how
     int asteroidTime = 0;
     int bulletTime = 0;
+    std::cout<<boardDifficulty;
+    std::vector<Artifacts*> temp;  //temprary vector to fill with the values of artifacts
+
     //difficulty is a parameter passed from mainwindow.cpp when the game is started and Board object is created
     if(boardDifficulty == 1){    //if easy
         asteroidTime = 150; //interval between refreshes of the asteroid
@@ -266,91 +283,86 @@ void Board::makeBoardAgain(size_t shipChoice, size_t difficulty){
         //this sets up the vector of artifacts
         winGame = (difficulty * 3); //first game would be 4
         winGameTracker = winGame;   //to keep track of how many there should have been
-        for (int i=(winGame-difficulty), j=winGameTracker; i<j; ++i){   //only need 4 artifacts
+        for (int i=0, j=winGameTracker; i<j; ++i){   //only need 4 artifacts
             int number = rand() % 10; //was 20
             if(number == 0){
                 number+= rand() % 5;    //so that it's not directly above the ship
             }
             //below code adds a new artifact to the vector at x = number, y=0(top of grid) and boardSize is passed to monitor how long asteroid stays on screen
-            artifacts.push_back(new Artifacts(number, i));
+            temp.push_back(new Artifacts(number, i));
         }
     }
     //difficulty is a parameter passed from mainwindow.cpp when the game is started and Board object is created
     else if(boardDifficulty == 2){   //if medium difficulty
-        asteroidTime = 110;
-        bulletTime = 110;
+        std::cout<<"At 2";
+        asteroidTime = 130;
+        bulletTime = 130;
         winGame = (difficulty * 3);
         winGameTracker = winGame;
-        for (int i=(winGame-difficulty), j=winGameTracker; i<j; ++i){   //need 6 artifacts for medium
+        for (int i=0, j=winGameTracker; i<j; ++i){   //need 6 artifacts for medium
             int number = rand() % 10; //was 20
             if(number == 0){
                 number+= rand() % 5;    //so that it's not directly above the ship
             }
             //below code adds a new artifact to the vector at x = number, y=0(top of grid) and boardSize is passed to monitor how long asteroid stays on screen
-            artifacts.push_back(new Artifacts(number, i));
+            temp.push_back(new Artifacts(number, i));
         }
     }
     else if (boardDifficulty == 3){   //if hard
-        asteroidTime = 80;
-        bulletTime = 80;
+        asteroidTime = 95;
+        bulletTime = 95;
         winGame = (difficulty * 3); //first game would be 4
         winGameTracker = winGame;   //to keep track of how many there should have been
-        for (int i=(winGame-difficulty), j=winGameTracker; i<j; ++i){  //more difficult, need to collect 10 artifacts
+        for (int i=0, j=winGameTracker; i<j; ++i){  //more difficult, need to collect 10 artifacts
             int number = rand() % 10; //was 20
             if(number == 0){
                 number+= rand() % 5;    //so that it's not directly above the ship
             }
             //below code adds a new artifact to the vector at x = number, y=0(top of grid) and boardSize is passed to monitor how long asteroid stays on screen
-            artifacts.push_back(new Artifacts(number, i));
+            temp.push_back(new Artifacts(number, i));
         }
     }
     else if (boardDifficulty == 4){   //if hard
+        asteroidTime = 75;
+        bulletTime = 75;
+        winGame = (difficulty * 3); //first game would be 4
+        winGameTracker = winGame;   //to keep track of how many there should have been
+        for (int i=0, j=winGameTracker; i<j; ++i){  //more difficult, need to collect 10 artifacts
+            int number = rand() % 10; //was 20
+            if(number == 0){
+                number+= rand() % 5;    //so that it's not directly above the ship
+            }
+            //below code adds a new artifact to the vector at x = number, y=0(top of grid) and boardSize is passed to monitor how long asteroid stays on screen
+            temp.push_back(new Artifacts(number, i));
+        }
+    }
+    else if (boardDifficulty == 5){   //if hard
         asteroidTime = 60;
         bulletTime = 60;
         winGame = (difficulty * 3); //first game would be 4
         winGameTracker = winGame;   //to keep track of how many there should have been
-        for (int i=(winGame-difficulty), j=winGameTracker; i<j; ++i){  //more difficult, need to collect 10 artifacts
+        for (int i=0, j=winGameTracker; i<j; ++i){  //more difficult, need to collect 10 artifacts
             int number = rand() % 10; //was 20
             if(number == 0){
                 number+= rand() % 5;    //so that it's not directly above the ship
             }
             //below code adds a new artifact to the vector at x = number, y=0(top of grid) and boardSize is passed to monitor how long asteroid stays on screen
-            artifacts.push_back(new Artifacts(number, i));
-        }
-    }
-    else if (boardDifficulty == 5){   //if hard
-        asteroidTime = 50;
-        bulletTime = 50;
-        winGame = (difficulty * 3); //first game would be 4
-        winGameTracker = winGame;   //to keep track of how many there should have been
-        for (int i=(winGame-difficulty), j=winGameTracker; i<j; ++i){  //more difficult, need to collect 10 artifacts
-            int number = rand() % 10; //was 20
-            if(number == 0){
-                number+= rand() % 5;    //so that it's not directly above the ship
-            }
-            //below code adds a new artifact to the vector at x = number, y=0(top of grid) and boardSize is passed to monitor how long asteroid stays on screen
-            artifacts.push_back(new Artifacts(number, i));
+            temp.push_back(new Artifacts(number, i));
         }
     }
 
     //create the artifacts that have to be collected in order to win
     std::string randomLetters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    for(size_t i=0, j=artifacts.size(); i<j; ++i){
+    for(size_t i=0, j=temp.size(); i<j; ++i){
         int randNum = rand()%26;    //a random number between 0 and 25
-        artifacts[i]->setLetter(randomLetters[randNum]);    //sets the private variable of artifact element equal to a letter in the alphabet
+        temp[i]->setLetter(randomLetters[randNum]);    //sets the private variable of artifact element equal to a letter in the alphabet
     }
 
-    {   //need to remake the vector to set all of the default values again!
-        std::vector<Artifacts*> temp;  //temprary vector to fill with the values of artifacts
-        for(size_t i = 0, j = artifacts.size(); i<j; ++i){
-            temp.push_back(new Artifacts(artifacts[i]->returnX(), artifacts[i]->returnY()));    //give the right location
-        }
-        for(size_t i = 0, j = artifacts.size(); i<j; ++i){
-            temp[i]->setLetter(artifacts[i]->returnChar());
-        }
+    for(size_t i = 0, j = temp.size(); i<j; ++i){
+        std::cout<<temp[i]->returnChar()<<std::endl;
+    }
 
-        std::swap(artifacts, temp); //swaps the two vectors
-        }   //temp goes out of scope here
+        std::swap(artifacts, temp);//swaps the two vectors
 
         lifeCount = 4;
         livesDescription->setText("<font size = 8><font color = white>Lives:</font>");
@@ -359,23 +371,28 @@ void Board::makeBoardAgain(size_t shipChoice, size_t difficulty){
         for (int i=0, j=lifeCount; i<j; ++i){
             lives[i]->setScaledContents(true);
             lives[i]->setPixmap(heart);
-            lives[i]->setFixedSize(80, 80);
+            lives[i]->setFixedSize(65, 65);
             bottomInfo->addWidget(lives[i], 1, i+2);
         }
 
     //set the iterator equal to the beginning of the artifacts vector
     check = artifacts.begin();
 
+    std::cout<<"Asteroid Time is"<<asteroidTime;
     //create space junk and bullet timing, this area is controlled by difficulty choice
-    timer = new QTimer(this);
+    //timer = new QTimer(this);
+    timer = new QTimer;
     connect(timer, SIGNAL(timeout()), this, SLOT(updateAsteroids()));
-    timer->start(asteroidTime);
+    timer->setInterval(asteroidTime);
+    timer->start();
 
     artifactVisible = false;    //must be set to false for the artifact code to work!
     //timer for showing artifacts on screen
-    timer3 = new QTimer(this);
+    //timer3 = new QTimer(this);
+    timer3 = new QTimer;
     connect(timer3, SIGNAL(timeout()), this, SLOT(showArtifact()));
-    timer3->start(asteroidTime+40);
+    timer3->setInterval(asteroidTime+40);
+    timer3->start();
 }
 
 /**
@@ -405,7 +422,7 @@ Board::~Board()
     @brief this defines what commands should be detected by the program from the keyboard or mouse
            all alphabetical key presses are valid as well as arrows, all others will have no affect*/
 void Board::keyPressEvent(QKeyEvent *event){
-    std::cout<<"KeyPressEvent:"<<std::endl;
+    //std::cout<<"KeyPressEvent:"<<std::endl;
     int x = shipPosition->returnX();
     int y = shipPosition->returnY();
 
@@ -414,208 +431,156 @@ void Board::keyPressEvent(QKeyEvent *event){
     case Qt::Key_A:{
         {
             catchArtifact(char('A'));
-            //--winGame;
-            //(*check)->setTrue();
         }
         break;
     }
     case Qt::Key_B:{
         {
             catchArtifact(char('B'));
-            //--winGame;
-            //(*check)->setTrue();
         }
         break;
     }
     case Qt::Key_C:{
         {
             catchArtifact(char('C'));
-            //--winGame;
-            //(*check)->setTrue();
         }
         break;
     }
     case Qt::Key_D:{
         {
             catchArtifact(char('D'));
-            //--winGame;
-            //(*check)->setTrue();
         }
         break;
     }
     case Qt::Key_E:{
         {
             catchArtifact(char('E'));
-            //--winGame;
-            //(*check)->setTrue();
         }
         break;
     }
     case Qt::Key_F:{
         {
             catchArtifact(char('F'));
-            //--winGame;
-            //(*check)->setTrue();
         }
         break;
     }
     case Qt::Key_G:{
         {
             catchArtifact(char('G'));
-            //--winGame;
-            //(*check)->setTrue();
         }
         break;
     }
     case Qt::Key_H:{
         {
             catchArtifact(char('H'));
-            //--winGame;
-            //(*check)->setTrue();
         }
         break;
     }
     case Qt::Key_I:{
         {
             catchArtifact(char('I'));
-            //--winGame;
-            //(*check)->setTrue();
         }
         break;
     }
     case Qt::Key_J:{
         {
             catchArtifact(char('J'));
-            //--winGame;
-            //(*check)->setTrue();
         }
         break;
     }
     case Qt::Key_K:{
         {
             catchArtifact(char('K'));
-            //--winGame;
-            //(*check)->setTrue();
         }
         break;
     }
     case Qt::Key_L:{
         {
             catchArtifact(char('L'));
-            //--winGame;
-            //(*check)->setTrue();
         }
         break;
     }
     case Qt::Key_M:{
         {
             catchArtifact(char('M'));
-            //--winGame;
-            //(*check)->setTrue();
         }
         break;
     }
     case Qt::Key_N:{
-       {
+        {
             catchArtifact(char('N'));
-            //--winGame;
-            //(*check)->setTrue();
         }
         break;
     }
     case Qt::Key_O:{
         {
             catchArtifact(char('O'));
-            //--winGame;
-            //(*check)->setTrue();
         }
         break;
     }
     case Qt::Key_P:{
         {
             catchArtifact(char('P'));
-            //--winGame;
-            //(*check)->setTrue();
         }
         break;
     }
     case Qt::Key_Q:{
        {
             catchArtifact(char('Q'));
-//            --winGame;
-//            (*check)->setTrue();
         }
         break;
     }
     case Qt::Key_R:{
         {
             catchArtifact(char('R'));
-//            --winGame;
-//            (*check)->setTrue();
         }
         break;
     }
     case Qt::Key_S:{
        {
             catchArtifact(char('S'));
-//            --winGame;
-//            (*check)->setTrue();
         }
         break;
         }
     case Qt::Key_T:{
         {
             catchArtifact(char('T'));
-//            --winGame;
-//            (*check)->setTrue();
         }
         break;
     }
     case Qt::Key_U:{
        {
             catchArtifact(char('U'));
-//            --winGame;
-//            (*check)->setTrue();
         }
         break;
     }
     case Qt::Key_V:{
         {
             catchArtifact(char('V'));
-//            --winGame;
-//            (*check)->setTrue();
         }
         break;
     }
     case Qt::Key_W:{
       {
             catchArtifact(char('W'));
-//            --winGame;
-//            (*check)->setTrue();
         }
         break;
     }
     case Qt::Key_X:{
         {
             catchArtifact(char('X'));
-//            --winGame;
-//            (*check)->setTrue();
         }
         break;
     }
     case Qt::Key_Y:{
         {
             catchArtifact(char('Y'));
-//            --winGame;
-//            (*check)->setTrue();
         }
         break;
     }
     case Qt::Key_Z:{
         {
             catchArtifact(char('Z'));
-//            --winGame;
-//            (*check)->setTrue();
         }
         break;
     }
@@ -645,15 +610,6 @@ void Board::keyPressEvent(QKeyEvent *event){
     default:
         QWidget::keyPressEvent(event);
     }
-
-    // Need both lines to force a repaint.
-
-    // This line forces processor to process all previously promised events.
-
-
-    // This one QUEUES up a repaint
-//    update();
-//    QCoreApplication::processEvents();
     return;
 }
 
@@ -663,7 +619,7 @@ void Board::keyPressEvent(QKeyEvent *event){
             again, just the thing that called it (hend why the whichPainEvent value is always reset to zero before the PaintEvent overload is exited.
     @param e is nothing, just required by overload definition of this function.*/
 void Board::paintEvent(QPaintEvent *e) {
-    std::cout<<"Paintevent"<<std::endl;\
+    //std::cout<<"Paintevent"<<std::endl;
     return;
 }
 
@@ -672,7 +628,7 @@ void Board::paintEvent(QPaintEvent *e) {
     @param e is just required by definition of the overload
 */
 void Board::showEvent(QShowEvent *e) {
-    std::cout<<"ShowEvent"<<std::endl;
+    //std::cout<<"ShowEvent"<<std::endl;
 
     this->activateWindow();
     this->setFocus();
@@ -689,7 +645,7 @@ void Board::showEvent(QShowEvent *e) {
     @param ny is the new y
     @return is none*/
 void Board::updateShip(int px, int py, int nx, int ny) {
-    std::cout<<"UpdateShip"<<std::endl;
+    //std::cout<<"UpdateShip"<<std::endl;
 
     gamePlayLabel[py*boardSize+px]->clear();
 
@@ -715,7 +671,7 @@ void Board::updateShip(int px, int py, int nx, int ny) {
             screen at a new *random* x value
     */
 void Board::updateAsteroids() {
-    std::cout<<"updateAsteroids"<<std::endl;
+    //std::cout<<"updateAsteroids"<<std::endl;
 
     updateBullets(); //update the bullet.  this was previously its own timer but there's no need.
 
@@ -772,7 +728,7 @@ void Board::updateAsteroids() {
             of the screen.  Otherwise, it increments upward the bullet's position until it gets to the top.
 */
 void Board::updateBullets(){
-    std::cout<<"updateBullets"<<std::endl;
+    //std::cout<<"updateBullets"<<std::endl;
 
     for (int i=0, j=bulletLocations.size(); i<j; ++i){
         //or if the asteroid is out of lives, it is time to move it back to the top!
@@ -818,7 +774,7 @@ void Board::updateBullets(){
     @return is boolean type true if there was a collision and false if there wasn't
 */
 bool Board::checkAsteroidCollision(){
-    std::cout<<"checkAsteroidCollision"<<std::endl;
+    //std::cout<<"checkAsteroidCollision"<<std::endl;
 
     size_t x = shipPosition->returnX();
     size_t y = shipPosition->returnY();
@@ -835,7 +791,7 @@ bool Board::checkAsteroidCollision(){
     @param none
     @return is boolean type true if there was a collision and false if there wasn't*/
 bool Board::checkBulletCollision(){
-    std::cout<<"checkBulletCollision"<<std::endl;
+    //std::cout<<"checkBulletCollision"<<std::endl;
     size_t x = shipPosition->returnX();
     size_t y = shipPosition->returnY();
 
@@ -852,8 +808,7 @@ bool Board::checkBulletCollision(){
     @return void because it's only an operations function
 */
 void Board::updateLives(){
-    std::cout<<"updateLives"<<std::endl;
-
+    //std::cout<<"updateLives"<<std::endl;
     if(lifeCount>0){
         --lifeCount;
         lives[lifeCount]->clear();
@@ -870,7 +825,7 @@ void Board::updateLives(){
     @param whichOne informs the function whether the game is over because the user won or lost, and displays the appropriate message
 */
 void Board::gameOver(int whichOne){
-    std::cout<<"gameOver"<<std::endl;
+    //std::cout<<"gameOver"<<std::endl;
 
     if(whichOne == 1) {//lost the game
         gameLost();
@@ -887,7 +842,7 @@ void Board::gameOver(int whichOne){
 /**
     @brief this function displays a notice that says */
 void Board::gameWon(){
-    std::cout<<"gameWon"<<std::endl;
+    //std::cout<<"gameWon"<<std::endl;
 
     QMessageBox winner;
     winner.setText("You won!");
@@ -896,7 +851,7 @@ void Board::gameWon(){
 }
 
 void Board::gameLost(){
-    std::cout<<"gameLost"<<std::endl;
+    //std::cout<<"gameLost"<<std::endl;
 
     QMessageBox loser;
     loser.setText("You lost!");
@@ -908,12 +863,13 @@ void Board::gameLost(){
 
 
 void Board::showArtifact(){
-    std::cout<<"showArtifact"<<std::endl;
+    //std::cout<<"showArtifact"<<std::endl;
 
     whenToStart = 1;
+
     if(!artifactVisible){ //if artifact is not visible
-        std::cout<<"probability";
-        size_t shouldShow = rand() % 100;   //create a probability that the artifact will be shown
+        //std::cout<<"probability";
+        size_t shouldShow = rand() % 550;   //create a probability that the artifact will be shown fix this
         if(shouldShow < 25){    //1/4 chance that the artifact will be shown, don't do this if there is one showing
             artifactVisible = true; //means go through code to set up artifact
         }
@@ -927,10 +883,13 @@ void Board::showArtifact(){
             while((*check)->isTrue()){  //while the artifacts are true, meaning they have been gotten
                 ++check;    //stops at the element that has not been shown yet
             }
-            (*check)->setIsShowing(true);   //sets the identify of the artifact to showing
+            if((check) != artifacts.end()){
+                (*check)->setIsShowing(true);   //sets the identify of the artifact to showing
+            }
         }
     }
 
+    if (check == artifacts.end()){ return; }
     if((*check)->returnY() == 9){ //meaning it is back at the bottom of the widget
         int px = (*check)->returnX();   //current position
         int py = (*check)->returnY();   //current position
@@ -964,7 +923,7 @@ void Board::showArtifact(){
         gamePlayLabel[py*boardSize+px]->setText(theChar);
         gamePlayLabel[py*boardSize+px]->setFixedSize(15,25);
         gamePlayLabel[py*boardSize+px]->setTextFormat(Qt::RichText);
-        gamePlayLabel[py*boardSize+px]->setStyleSheet("QLabel { background-color : rgba(0,0,0,0%); color : white; }");
+        gamePlayLabel[py*boardSize+px]->setStyleSheet("QLabel { background-color : rgba(0,0,0,0%); color : yellow; }");
         gamePlayLabel[py*boardSize+px]->setScaledContents(true);
     }
 
@@ -982,35 +941,34 @@ void Board::showArtifact(){
     @param lettre (french, not a typo) is the letter that the user pressed, which is compared to the letter that the iterator
             is pointing to currently.*/
 void Board::catchArtifact(char lettre){
-    std::cout<<"catchArtifact"<<std::endl;
+    //std::cout<<"catchArtifact"<<std::endl;
 
     if(check != artifacts.end()){   //JUST IN CASE THIS GETS CALLED WHEN *CHECK IS NULLPTR
         //if the letter pressed is the correct letter and the artifact is actually showing at the moment
         if ((*check)->returnChar() == lettre && (*check)->informIsShowing() && (!(*check)->isTrue())){
-            std::cout<<"catchArtifact3"<<std::endl;
+            //std::cout<<"catchArtifact3"<<std::endl;
 
             --winGame;  //decrements the number of artifacts required to win the game now.
             (*check)->setTrue();    //means it has been collected, so that next time, the iterator will be set to the next element in the vector.
-            std::cout<<"catchArtifact4"<<std::endl;
+            //std::cout<<"catchArtifact4"<<std::endl;
 
         }
         else{return;}
         if(winGame <= 0){
-            std::cout<<"catchArtifact5"<<std::endl;
+            //std::cout<<"catchArtifact5"<<std::endl;
             levelUp();
-            //gameOver(2); //calls gameOver to end game
         }
     }
-        std::cout<<"catchArtifact6"<<std::endl;
+        //std::cout<<"catchArtifact6"<<std::endl;
 
     return;
 }
 /**
-    @brief this function will level up the game to make it more difficult, if */
+    @brief this function will level up the game to make it more difficult.  it is called by the collect artifact function which monitors how many of the artifacts have been collected */
 void Board::levelUp(){
     winGameTracker +=3; //adds three more artifacts that need to be collected
     ++boardDifficulty;  //makes the level go up one
-    if(boardDifficulty == 3){
+    if(boardDifficulty == 6){
         gameOver(2);    //you won!
     }
     else {
@@ -1018,18 +976,14 @@ void Board::levelUp(){
         timer3->stop(); //stop the timer
         levelUpAlert(); //"you leveled up!
         makeBoardAgain(boardShipChoice, boardDifficulty);
-        //Board *newBoard = new Board(this, boardShipChoice, boardDifficulty);
-        //this->close();
-        //newBoard->show();
-        //connect(this, SIGNAL(destroyed()), this, SLOT(newBoard->show();));    //deletes this if the previous was deleted, meanign it was deleted meaning user lost
-        //makeBoard(boardShipChoice, boardDifficulty);   //same ship, difficulty is incremented by one.
     }
 
     return;
 }
-
+/**
+    @brief this function displays an alert that the user has leveled up, and is called by the levelUp function.  After this warning, the game speeds up.*/
 void Board::levelUpAlert(){
-    std::cout<<"levelUpAlert"<<std::endl;
+    //std::cout<<"levelUpAlert"<<std::endl;
 
     QMessageBox levelUpMessage;
     levelUpMessage.setText("You leveled up!");
