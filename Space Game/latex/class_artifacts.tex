@@ -1,0 +1,135 @@
+\hypertarget{class_artifacts}{}\section{Artifacts Class Reference}
+\label{class_artifacts}\index{Artifacts@{Artifacts}}
+
+
+class that handles the letters that appear on the screen and are \char`\"{}artifacts.\char`\"{} This class inherets from the \char`\"{}board\+Object\char`\"{} class so it can be moved throughout the screen.  
+
+
+
+
+{\ttfamily \#include $<$artifacts.\+h$>$}
+
+Inheritance diagram for Artifacts\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_artifacts}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_artifacts_a3b0f2c2b47dcfe960250d4be0aab18c2}{}{\bfseries Artifacts} (int x, int y)\label{class_artifacts_a3b0f2c2b47dcfe960250d4be0aab18c2}
+
+\item 
+void \hyperlink{class_artifacts_a627fd75502433f38d442ceefd9f3fb60}{set\+True} ()
+\begin{DoxyCompactList}\small\item\em sets the value of the artifact to false if it was collected \end{DoxyCompactList}\item 
+bool \hyperlink{class_artifacts_aff537d250b76e2938ebf5dafc57f9d72}{is\+True} ()
+\begin{DoxyCompactList}\small\item\em returns true if is\+Gotten is true \end{DoxyCompactList}\item 
+char \hyperlink{class_artifacts_a2627b4e39e02808cd2d3e4ef8d915278}{return\+Char} ()
+\begin{DoxyCompactList}\small\item\em returns the char of that element \end{DoxyCompactList}\item 
+void \hyperlink{class_artifacts_a305c89b59aa9268ea088811fee516d7a}{set\+Letter} (char passed)
+\begin{DoxyCompactList}\small\item\em sets the letter (private variable) to the passed char, which is random from the board.\+cpp file \end{DoxyCompactList}\item 
+void \hyperlink{class_artifacts_a89fe3109ee0284df7615a8c04e8260a6}{set\+Is\+Showing} (bool option)
+\begin{DoxyCompactList}\small\item\em this function sets the boolean value of the is\+Showing private variable and is used to determine whether the artifact is being shown or not. this is used to determine at key press time whether the artifact can be collected. \end{DoxyCompactList}\item 
+bool \hyperlink{class_artifacts_afe12fd42ca30d711f1479b95be7e6935}{inform\+Is\+Showing} ()
+\begin{DoxyCompactList}\small\item\em is used to determine whether an atifact is showing at the moment. This is used to determine whether an artifact was collected while shown on the screen, to make sure users don\textquotesingle{}t get to win by clicking the key when the artifact isn\textquotesingle{}t on the screen. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+class that handles the letters that appear on the screen and are \char`\"{}artifacts.\char`\"{} This class inherets from the \char`\"{}board\+Object\char`\"{} class so it can be moved throughout the screen. 
+
+\subsection{Member Function Documentation}
+\hypertarget{class_artifacts_afe12fd42ca30d711f1479b95be7e6935}{}\index{Artifacts@{Artifacts}!inform\+Is\+Showing@{inform\+Is\+Showing}}
+\index{inform\+Is\+Showing@{inform\+Is\+Showing}!Artifacts@{Artifacts}}
+\subsubsection[{inform\+Is\+Showing}]{\setlength{\rightskip}{0pt plus 5cm}bool Artifacts\+::inform\+Is\+Showing (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{class_artifacts_afe12fd42ca30d711f1479b95be7e6935}
+
+
+is used to determine whether an atifact is showing at the moment. This is used to determine whether an artifact was collected while shown on the screen, to make sure users don\textquotesingle{}t get to win by clicking the key when the artifact isn\textquotesingle{}t on the screen. 
+
+\begin{DoxyReturn}{Returns}
+is boolean is\+Showing. 
+\end{DoxyReturn}
+\hypertarget{class_artifacts_aff537d250b76e2938ebf5dafc57f9d72}{}\index{Artifacts@{Artifacts}!is\+True@{is\+True}}
+\index{is\+True@{is\+True}!Artifacts@{Artifacts}}
+\subsubsection[{is\+True}]{\setlength{\rightskip}{0pt plus 5cm}bool Artifacts\+::is\+True (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{class_artifacts_aff537d250b76e2938ebf5dafc57f9d72}
+
+
+returns true if is\+Gotten is true 
+
+\begin{DoxyReturn}{Returns}
+bool true if the object has been gotten 
+\end{DoxyReturn}
+\hypertarget{class_artifacts_a2627b4e39e02808cd2d3e4ef8d915278}{}\index{Artifacts@{Artifacts}!return\+Char@{return\+Char}}
+\index{return\+Char@{return\+Char}!Artifacts@{Artifacts}}
+\subsubsection[{return\+Char}]{\setlength{\rightskip}{0pt plus 5cm}char Artifacts\+::return\+Char (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{class_artifacts_a2627b4e39e02808cd2d3e4ef8d915278}
+
+
+returns the char of that element 
+
+\begin{DoxyReturn}{Returns}
+letter is the stored private variable 
+\end{DoxyReturn}
+\hypertarget{class_artifacts_a89fe3109ee0284df7615a8c04e8260a6}{}\index{Artifacts@{Artifacts}!set\+Is\+Showing@{set\+Is\+Showing}}
+\index{set\+Is\+Showing@{set\+Is\+Showing}!Artifacts@{Artifacts}}
+\subsubsection[{set\+Is\+Showing}]{\setlength{\rightskip}{0pt plus 5cm}void Artifacts\+::set\+Is\+Showing (
+\begin{DoxyParamCaption}
+\item[{bool}]{option}
+\end{DoxyParamCaption}
+)}\label{class_artifacts_a89fe3109ee0284df7615a8c04e8260a6}
+
+
+this function sets the boolean value of the is\+Showing private variable and is used to determine whether the artifact is being shown or not. this is used to determine at key press time whether the artifact can be collected. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em option} & is the boolean value to set the private variable is\+Showing to. \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_artifacts_a305c89b59aa9268ea088811fee516d7a}{}\index{Artifacts@{Artifacts}!set\+Letter@{set\+Letter}}
+\index{set\+Letter@{set\+Letter}!Artifacts@{Artifacts}}
+\subsubsection[{set\+Letter}]{\setlength{\rightskip}{0pt plus 5cm}void Artifacts\+::set\+Letter (
+\begin{DoxyParamCaption}
+\item[{char}]{passed}
+\end{DoxyParamCaption}
+)}\label{class_artifacts_a305c89b59aa9268ea088811fee516d7a}
+
+
+sets the letter (private variable) to the passed char, which is random from the board.\+cpp file 
+
+
+\begin{DoxyParams}{Parameters}
+{\em passed} & is the char to set letter (private variable) to \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_artifacts_a627fd75502433f38d442ceefd9f3fb60}{}\index{Artifacts@{Artifacts}!set\+True@{set\+True}}
+\index{set\+True@{set\+True}!Artifacts@{Artifacts}}
+\subsubsection[{set\+True}]{\setlength{\rightskip}{0pt plus 5cm}void Artifacts\+::set\+True (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{class_artifacts_a627fd75502433f38d442ceefd9f3fb60}
+
+
+sets the value of the artifact to false if it was collected 
+
+\begin{DoxyReturn}{Returns}
+none 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+artifacts.\+h\item 
+artifacts.\+cpp\end{DoxyCompactItemize}

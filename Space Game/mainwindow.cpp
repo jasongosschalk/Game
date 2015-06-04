@@ -20,11 +20,12 @@ void MainWindow::createWindow(){
     //this portion of code sets up the master layout and main Widget and 3 sub widgets
     welcomePage = new QWidget;  //master widget
     welcomePage->setFixedSize(600,600); //size of the game is fixed
+    this->setFixedSize(650,650);
     allLayouts = new QVBoxLayout(welcomePage);  //the only thing that should be connected to the welcomePage widget
     topWidget = new QWidget;    //will contain title and explanation
     middleWidget = new QWidget; //will contain the difficulty options and the ship options
     bottomWidget = new QWidget; //will contain the start button and anything added later
-    QPixmap bkgnd(":/images/space.jpg");
+    QPixmap bkgnd(":/images/images/space.jpg");
     bkgnd.scaledToHeight(600);
     bkgnd.scaledToWidth(600);
     QPalette palette;
@@ -199,7 +200,7 @@ void MainWindow::gameBegin(){
 void MainWindow::showInstructions(){
     QWidget *instructionsPage = new QWidget;
     instructionsPage->setFixedSize(500,500);
-    QPixmap bkgnd(":/images/putin.jpg");
+    QPixmap bkgnd(":/images/images/putin.jpg");
     bkgnd = bkgnd.scaled(instructionsPage->size(), Qt::IgnoreAspectRatio);
     QPalette palette;
     palette.setBrush(QPalette::Background, bkgnd);

@@ -1,0 +1,250 @@
+\hypertarget{class_board_object}{}\section{Board\+Object Class Reference}
+\label{class_board_object}\index{Board\+Object@{Board\+Object}}
+
+
+this class contains the code required for everything having to do with objects on the board, including their location.  
+
+
+Inheritance diagram for Board\+Object\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_board_object}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_board_object_aea0a667a588d6d8f74b35a1310c0b0db}{}{\bfseries Board\+Object} (int x, int i)\label{class_board_object_aea0a667a588d6d8f74b35a1310c0b0db}
+
+\item 
+size\+\_\+t \hyperlink{class_board_object_a6215e6cee5590ed64d0f69e429c3a57e}{return\+X} ()
+\begin{DoxyCompactList}\small\item\em returns the value of the current X coordinate, used to update the new value of the asteroid \end{DoxyCompactList}\item 
+size\+\_\+t \hyperlink{class_board_object_ae6571ea8cf75fdd085774b17b0a82c57}{return\+Y} ()
+\begin{DoxyCompactList}\small\item\em returns the value of the current Y coordinate, used to update the new value of the asteroid \end{DoxyCompactList}\item 
+void \hyperlink{class_board_object_a16e6a534bacc35e835151e8f749ca5af}{set\+X} (int new\+Value)
+\begin{DoxyCompactList}\small\item\em this function resets the value of X so that the asteorid can be updated to a new location (this is the current X position) \end{DoxyCompactList}\item 
+void \hyperlink{class_board_object_a3b1c18087121482d43146a8dcad888d5}{set\+Y} (int new\+Value)
+\begin{DoxyCompactList}\small\item\em this function resets the value of Y so that the asteorid can be updated to a new location (this is the current Y position) \end{DoxyCompactList}\item 
+void \hyperlink{class_board_object_a88855864ce71ac2abce2c00b4e0942a8}{set\+Old\+X} (int new\+Value)
+\begin{DoxyCompactList}\small\item\em this function resets the value of old\+X so that the asteorid can be cleared off of the grid \end{DoxyCompactList}\item 
+void \hyperlink{class_board_object_a9a0df06ac05cfd8d8aa0b0f6b3ba278c}{set\+Old\+Y} (int new\+Value)
+\begin{DoxyCompactList}\small\item\em this function resets the value of old\+Y so that the asteorid can be cleared off of the grid \end{DoxyCompactList}\item 
+size\+\_\+t \hyperlink{class_board_object_aabf556d1399fa0ebf01eb49b0a634c42}{return\+Old\+X} ()
+\begin{DoxyCompactList}\small\item\em returns the value of the old X coordinate, used to clear the asteroid off of the grid \end{DoxyCompactList}\item 
+size\+\_\+t \hyperlink{class_board_object_ae7923fde621bf39e5084ee9b3040ab60}{return\+Old\+Y} ()
+\begin{DoxyCompactList}\small\item\em returns the value of the old Y coordinate, used to clear the asteroid off of the grid \end{DoxyCompactList}\item 
+\hypertarget{class_board_object_abbe110ba81635b721607a1d294b0b20b}{}bool {\bfseries asteroid\+Life} ()\label{class_board_object_abbe110ba81635b721607a1d294b0b20b}
+
+\item 
+\hyperlink{class_board_object}{Board\+Object} \& \hyperlink{class_board_object_ac8779fbe0b81be22331d2c42c37fac12}{operator++} ()
+\begin{DoxyCompactList}\small\item\em prefix increment operator overload for the \hyperlink{class_asteroid}{Asteroid} class which only decrements the life \end{DoxyCompactList}\item 
+\hyperlink{class_board_object}{Board\+Object} \& \hyperlink{class_board_object_af001e15eacc70ec4b628a371a2bf4b61}{operator-\/-\/} ()
+\begin{DoxyCompactList}\small\item\em prefix decrement operator overload for the \hyperlink{class_asteroid}{Asteroid} class which only decrements the life \end{DoxyCompactList}\item 
+bool \hyperlink{class_board_object_a2831a4f0540a2e7d81f9ace1a44b4d09}{if\+Board\+Object\+Collision} (size\+\_\+t x, size\+\_\+t y)
+\begin{DoxyCompactList}\small\item\em this function returns true if a location is shared by the asteroid and the ship \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+this class contains the code required for everything having to do with objects on the board, including their location. 
+
+the asteroids\+: where they are on the screen and how long they are on the screen 
+
+\subsection{Member Function Documentation}
+\hypertarget{class_board_object_a2831a4f0540a2e7d81f9ace1a44b4d09}{}\index{Board\+Object@{Board\+Object}!if\+Board\+Object\+Collision@{if\+Board\+Object\+Collision}}
+\index{if\+Board\+Object\+Collision@{if\+Board\+Object\+Collision}!Board\+Object@{Board\+Object}}
+\subsubsection[{if\+Board\+Object\+Collision}]{\setlength{\rightskip}{0pt plus 5cm}bool Board\+Object\+::if\+Board\+Object\+Collision (
+\begin{DoxyParamCaption}
+\item[{size\+\_\+t}]{x, }
+\item[{size\+\_\+t}]{y}
+\end{DoxyParamCaption}
+)}\label{class_board_object_a2831a4f0540a2e7d81f9ace1a44b4d09}
+
+
+this function returns true if a location is shared by the asteroid and the ship 
+
+
+\begin{DoxyParams}{Parameters}
+{\em x} & is the x value of the ship \\
+\hline
+{\em y} & is the y value of the ship \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+is a boolean value and is true if they are at the same point, false otherwise 
+\end{DoxyReturn}
+\hypertarget{class_board_object_ac8779fbe0b81be22331d2c42c37fac12}{}\index{Board\+Object@{Board\+Object}!operator++@{operator++}}
+\index{operator++@{operator++}!Board\+Object@{Board\+Object}}
+\subsubsection[{operator++}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Board\+Object} \& Board\+Object\+::operator++ (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{class_board_object_ac8779fbe0b81be22331d2c42c37fac12}
+
+
+prefix increment operator overload for the \hyperlink{class_asteroid}{Asteroid} class which only decrements the life 
+
+
+\begin{DoxyParams}{Parameters}
+{\em there} & are no parameters for the prefix increment operator by convention \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+is the \hyperlink{class_asteroid}{Asteroid} object that has been incremented, not a copy of the previously incremented 
+\end{DoxyReturn}
+\hypertarget{class_board_object_af001e15eacc70ec4b628a371a2bf4b61}{}\index{Board\+Object@{Board\+Object}!operator-\/-\/@{operator-\/-\/}}
+\index{operator-\/-\/@{operator-\/-\/}!Board\+Object@{Board\+Object}}
+\subsubsection[{operator-\/-\/}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Board\+Object} \& Board\+Object\+::operator-\/-\/ (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{class_board_object_af001e15eacc70ec4b628a371a2bf4b61}
+
+
+prefix decrement operator overload for the \hyperlink{class_asteroid}{Asteroid} class which only decrements the life 
+
+
+\begin{DoxyParams}{Parameters}
+{\em there} & are no parameters for the prefix decrement operator by convention \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+is the \hyperlink{class_asteroid}{Asteroid} object that has been decremented, not a copy of the previously decremented 
+\end{DoxyReturn}
+\hypertarget{class_board_object_aabf556d1399fa0ebf01eb49b0a634c42}{}\index{Board\+Object@{Board\+Object}!return\+Old\+X@{return\+Old\+X}}
+\index{return\+Old\+X@{return\+Old\+X}!Board\+Object@{Board\+Object}}
+\subsubsection[{return\+Old\+X}]{\setlength{\rightskip}{0pt plus 5cm}size\+\_\+t Board\+Object\+::return\+Old\+X (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{class_board_object_aabf556d1399fa0ebf01eb49b0a634c42}
+
+
+returns the value of the old X coordinate, used to clear the asteroid off of the grid 
+
+\begin{DoxyReturn}{Returns}
+is the int of the old coordinate. 
+\end{DoxyReturn}
+\hypertarget{class_board_object_ae7923fde621bf39e5084ee9b3040ab60}{}\index{Board\+Object@{Board\+Object}!return\+Old\+Y@{return\+Old\+Y}}
+\index{return\+Old\+Y@{return\+Old\+Y}!Board\+Object@{Board\+Object}}
+\subsubsection[{return\+Old\+Y}]{\setlength{\rightskip}{0pt plus 5cm}size\+\_\+t Board\+Object\+::return\+Old\+Y (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{class_board_object_ae7923fde621bf39e5084ee9b3040ab60}
+
+
+returns the value of the old Y coordinate, used to clear the asteroid off of the grid 
+
+\begin{DoxyReturn}{Returns}
+is the int of the old coordinate. 
+\end{DoxyReturn}
+\hypertarget{class_board_object_a6215e6cee5590ed64d0f69e429c3a57e}{}\index{Board\+Object@{Board\+Object}!return\+X@{return\+X}}
+\index{return\+X@{return\+X}!Board\+Object@{Board\+Object}}
+\subsubsection[{return\+X}]{\setlength{\rightskip}{0pt plus 5cm}size\+\_\+t Board\+Object\+::return\+X (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{class_board_object_a6215e6cee5590ed64d0f69e429c3a57e}
+
+
+returns the value of the current X coordinate, used to update the new value of the asteroid 
+
+\begin{DoxyReturn}{Returns}
+is the int of the new coordinate. 
+\end{DoxyReturn}
+\hypertarget{class_board_object_ae6571ea8cf75fdd085774b17b0a82c57}{}\index{Board\+Object@{Board\+Object}!return\+Y@{return\+Y}}
+\index{return\+Y@{return\+Y}!Board\+Object@{Board\+Object}}
+\subsubsection[{return\+Y}]{\setlength{\rightskip}{0pt plus 5cm}size\+\_\+t Board\+Object\+::return\+Y (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{class_board_object_ae6571ea8cf75fdd085774b17b0a82c57}
+
+
+returns the value of the current Y coordinate, used to update the new value of the asteroid 
+
+\begin{DoxyReturn}{Returns}
+is the int of the new coordinate. 
+\end{DoxyReturn}
+\hypertarget{class_board_object_a88855864ce71ac2abce2c00b4e0942a8}{}\index{Board\+Object@{Board\+Object}!set\+Old\+X@{set\+Old\+X}}
+\index{set\+Old\+X@{set\+Old\+X}!Board\+Object@{Board\+Object}}
+\subsubsection[{set\+Old\+X}]{\setlength{\rightskip}{0pt plus 5cm}void Board\+Object\+::set\+Old\+X (
+\begin{DoxyParamCaption}
+\item[{int}]{new\+Value}
+\end{DoxyParamCaption}
+)}\label{class_board_object_a88855864ce71ac2abce2c00b4e0942a8}
+
+
+this function resets the value of old\+X so that the asteorid can be cleared off of the grid 
+
+
+\begin{DoxyParams}{Parameters}
+{\em is} & the value of the old X value of the object \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+is void. 
+\end{DoxyReturn}
+\hypertarget{class_board_object_a9a0df06ac05cfd8d8aa0b0f6b3ba278c}{}\index{Board\+Object@{Board\+Object}!set\+Old\+Y@{set\+Old\+Y}}
+\index{set\+Old\+Y@{set\+Old\+Y}!Board\+Object@{Board\+Object}}
+\subsubsection[{set\+Old\+Y}]{\setlength{\rightskip}{0pt plus 5cm}void Board\+Object\+::set\+Old\+Y (
+\begin{DoxyParamCaption}
+\item[{int}]{new\+Value}
+\end{DoxyParamCaption}
+)}\label{class_board_object_a9a0df06ac05cfd8d8aa0b0f6b3ba278c}
+
+
+this function resets the value of old\+Y so that the asteorid can be cleared off of the grid 
+
+
+\begin{DoxyParams}{Parameters}
+{\em is} & the value of the old Y value of the object \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+is void. 
+\end{DoxyReturn}
+\hypertarget{class_board_object_a16e6a534bacc35e835151e8f749ca5af}{}\index{Board\+Object@{Board\+Object}!set\+X@{set\+X}}
+\index{set\+X@{set\+X}!Board\+Object@{Board\+Object}}
+\subsubsection[{set\+X}]{\setlength{\rightskip}{0pt plus 5cm}void Board\+Object\+::set\+X (
+\begin{DoxyParamCaption}
+\item[{int}]{new\+Value}
+\end{DoxyParamCaption}
+)}\label{class_board_object_a16e6a534bacc35e835151e8f749ca5af}
+
+
+this function resets the value of X so that the asteorid can be updated to a new location (this is the current X position) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em is} & the value of new Y coordinate \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+is void. 
+\end{DoxyReturn}
+\hypertarget{class_board_object_a3b1c18087121482d43146a8dcad888d5}{}\index{Board\+Object@{Board\+Object}!set\+Y@{set\+Y}}
+\index{set\+Y@{set\+Y}!Board\+Object@{Board\+Object}}
+\subsubsection[{set\+Y}]{\setlength{\rightskip}{0pt plus 5cm}void Board\+Object\+::set\+Y (
+\begin{DoxyParamCaption}
+\item[{int}]{new\+Value}
+\end{DoxyParamCaption}
+)}\label{class_board_object_a3b1c18087121482d43146a8dcad888d5}
+
+
+this function resets the value of Y so that the asteorid can be updated to a new location (this is the current Y position) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em is} & the value of new Y coordinate \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+is void. 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+boardobject.\+h\item 
+boardobject.\+cpp\end{DoxyCompactItemize}

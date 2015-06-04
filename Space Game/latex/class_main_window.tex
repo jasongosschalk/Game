@@ -1,0 +1,212 @@
+\hypertarget{class_main_window}{}\section{Main\+Window Class Reference}
+\label{class_main_window}\index{Main\+Window@{Main\+Window}}
+
+
+this class is what the user sees when the program opens. It contains information about the instructions of the game and gives the user options to vary the game.  
+
+
+
+
+{\ttfamily \#include $<$mainwindow.\+h$>$}
+
+Inheritance diagram for Main\+Window\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_main_window}
+\end{center}
+\end{figure}
+\subsection*{Public Slots}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_main_window_a490dffeed0087613db6d8670e2e449fd}{}void \hyperlink{class_main_window_a490dffeed0087613db6d8670e2e449fd}{create\+Window} ()\label{class_main_window_a490dffeed0087613db6d8670e2e449fd}
+
+\begin{DoxyCompactList}\small\item\em this function draws the mainwindow \end{DoxyCompactList}\item 
+void \hyperlink{class_main_window_a50c46a9bcecd6984843fa3ac18de5ca6}{game\+Begin} ()
+\begin{DoxyCompactList}\small\item\em a public slot that begins a new game by creating a board object. The user cannot create a new game unless they have selected a ship\+Choice and difficulty level \end{DoxyCompactList}\item 
+void \hyperlink{class_main_window_a146223deb707bcec634698b1bc4c09d4}{show\+Instructions} ()
+\begin{DoxyCompactList}\small\item\em a public slot that shows a new window with instructions when the \char`\"{}\+Instructions\char`\"{} button is clicked \end{DoxyCompactList}\item 
+void \hyperlink{class_main_window_a64e01e49613213839210832983620eb2}{enterprise\+Choice} ()
+\begin{DoxyCompactList}\small\item\em a public slot. this function calls set\+Ship to make the gameplay ship the Star Trek Enterprise \end{DoxyCompactList}\item 
+void \hyperlink{class_main_window_aa240ae1f2d456d91a74000eafe5fb8b0}{cosmos\+Choice} ()
+\begin{DoxyCompactList}\small\item\em a public slot. this function calls set\+Ship to make the gameplay ship the ship from the Cosmos \end{DoxyCompactList}\item 
+void \hyperlink{class_main_window_a9840f393bbd7e84daeab6d10214b10d0}{set\+Easy} ()
+\begin{DoxyCompactList}\small\item\em a public slot that sets the difficulty value of the game to 1, which is passed to the board object \end{DoxyCompactList}\item 
+void \hyperlink{class_main_window_aaa0c79a3a1fba70aafe0f24dce424119}{set\+Medium} ()
+\begin{DoxyCompactList}\small\item\em a public slot that sets the difficulty value of the game to 2, which is passed to the board object \end{DoxyCompactList}\item 
+void \hyperlink{class_main_window_a349017d74bcea50a8254544c70b7b118}{set\+Hard} ()
+\begin{DoxyCompactList}\small\item\em a public slot that sets the difficulty value of the game to 3, which is passed to the board object \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_main_window_a8b244be8b7b7db1b08de2a2acb9409db}{}{\bfseries Main\+Window} (Q\+Widget $\ast$parent=0)\label{class_main_window_a8b244be8b7b7db1b08de2a2acb9409db}
+
+\item 
+\hypertarget{class_main_window_ae98d00a93bc118200eeef9f9bba1dba7}{}\hyperlink{class_main_window_ae98d00a93bc118200eeef9f9bba1dba7}{$\sim$\+Main\+Window} ()\label{class_main_window_ae98d00a93bc118200eeef9f9bba1dba7}
+
+\begin{DoxyCompactList}\small\item\em destructor for the \hyperlink{class_main_window}{Main\+Window} class that deletes the ui and all of its children (R\+A\+I\+I) \end{DoxyCompactList}\item 
+void \hyperlink{class_main_window_a1e4e82b8242ca26edec38b111d990295}{set\+Ship} (size\+\_\+t choice)
+\begin{DoxyCompactList}\small\item\em a helper function that sets the ship to either the cosmos ship or the enterprise \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+this class is what the user sees when the program opens. It contains information about the instructions of the game and gives the user options to vary the game. 
+
+\subsection{Member Function Documentation}
+\hypertarget{class_main_window_aa240ae1f2d456d91a74000eafe5fb8b0}{}\index{Main\+Window@{Main\+Window}!cosmos\+Choice@{cosmos\+Choice}}
+\index{cosmos\+Choice@{cosmos\+Choice}!Main\+Window@{Main\+Window}}
+\subsubsection[{cosmos\+Choice}]{\setlength{\rightskip}{0pt plus 5cm}void Main\+Window\+::cosmos\+Choice (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [slot]}}\label{class_main_window_aa240ae1f2d456d91a74000eafe5fb8b0}
+
+
+a public slot. this function calls set\+Ship to make the gameplay ship the ship from the Cosmos 
+
+
+\begin{DoxyParams}{Parameters}
+{\em none} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+none 
+\end{DoxyReturn}
+\hypertarget{class_main_window_a64e01e49613213839210832983620eb2}{}\index{Main\+Window@{Main\+Window}!enterprise\+Choice@{enterprise\+Choice}}
+\index{enterprise\+Choice@{enterprise\+Choice}!Main\+Window@{Main\+Window}}
+\subsubsection[{enterprise\+Choice}]{\setlength{\rightskip}{0pt plus 5cm}void Main\+Window\+::enterprise\+Choice (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [slot]}}\label{class_main_window_a64e01e49613213839210832983620eb2}
+
+
+a public slot. this function calls set\+Ship to make the gameplay ship the Star Trek Enterprise 
+
+
+\begin{DoxyParams}{Parameters}
+{\em none} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+none 
+\end{DoxyReturn}
+\hypertarget{class_main_window_a50c46a9bcecd6984843fa3ac18de5ca6}{}\index{Main\+Window@{Main\+Window}!game\+Begin@{game\+Begin}}
+\index{game\+Begin@{game\+Begin}!Main\+Window@{Main\+Window}}
+\subsubsection[{game\+Begin}]{\setlength{\rightskip}{0pt plus 5cm}void Main\+Window\+::game\+Begin (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [slot]}}\label{class_main_window_a50c46a9bcecd6984843fa3ac18de5ca6}
+
+
+a public slot that begins a new game by creating a board object. The user cannot create a new game unless they have selected a ship\+Choice and difficulty level 
+
+
+\begin{DoxyParams}{Parameters}
+{\em none} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+none 
+\end{DoxyReturn}
+\hypertarget{class_main_window_a9840f393bbd7e84daeab6d10214b10d0}{}\index{Main\+Window@{Main\+Window}!set\+Easy@{set\+Easy}}
+\index{set\+Easy@{set\+Easy}!Main\+Window@{Main\+Window}}
+\subsubsection[{set\+Easy}]{\setlength{\rightskip}{0pt plus 5cm}void Main\+Window\+::set\+Easy (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [slot]}}\label{class_main_window_a9840f393bbd7e84daeab6d10214b10d0}
+
+
+a public slot that sets the difficulty value of the game to 1, which is passed to the board object 
+
+
+\begin{DoxyParams}{Parameters}
+{\em none} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+none 
+\end{DoxyReturn}
+\hypertarget{class_main_window_a349017d74bcea50a8254544c70b7b118}{}\index{Main\+Window@{Main\+Window}!set\+Hard@{set\+Hard}}
+\index{set\+Hard@{set\+Hard}!Main\+Window@{Main\+Window}}
+\subsubsection[{set\+Hard}]{\setlength{\rightskip}{0pt plus 5cm}void Main\+Window\+::set\+Hard (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [slot]}}\label{class_main_window_a349017d74bcea50a8254544c70b7b118}
+
+
+a public slot that sets the difficulty value of the game to 3, which is passed to the board object 
+
+
+\begin{DoxyParams}{Parameters}
+{\em none} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+none 
+\end{DoxyReturn}
+\hypertarget{class_main_window_aaa0c79a3a1fba70aafe0f24dce424119}{}\index{Main\+Window@{Main\+Window}!set\+Medium@{set\+Medium}}
+\index{set\+Medium@{set\+Medium}!Main\+Window@{Main\+Window}}
+\subsubsection[{set\+Medium}]{\setlength{\rightskip}{0pt plus 5cm}void Main\+Window\+::set\+Medium (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [slot]}}\label{class_main_window_aaa0c79a3a1fba70aafe0f24dce424119}
+
+
+a public slot that sets the difficulty value of the game to 2, which is passed to the board object 
+
+
+\begin{DoxyParams}{Parameters}
+{\em none} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+none 
+\end{DoxyReturn}
+\hypertarget{class_main_window_a1e4e82b8242ca26edec38b111d990295}{}\index{Main\+Window@{Main\+Window}!set\+Ship@{set\+Ship}}
+\index{set\+Ship@{set\+Ship}!Main\+Window@{Main\+Window}}
+\subsubsection[{set\+Ship}]{\setlength{\rightskip}{0pt plus 5cm}void Main\+Window\+::set\+Ship (
+\begin{DoxyParamCaption}
+\item[{size\+\_\+t}]{choice}
+\end{DoxyParamCaption}
+)}\label{class_main_window_a1e4e82b8242ca26edec38b111d990295}
+
+
+a helper function that sets the ship to either the cosmos ship or the enterprise 
+
+
+\begin{DoxyParams}{Parameters}
+{\em none} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+none 
+\end{DoxyReturn}
+\hypertarget{class_main_window_a146223deb707bcec634698b1bc4c09d4}{}\index{Main\+Window@{Main\+Window}!show\+Instructions@{show\+Instructions}}
+\index{show\+Instructions@{show\+Instructions}!Main\+Window@{Main\+Window}}
+\subsubsection[{show\+Instructions}]{\setlength{\rightskip}{0pt plus 5cm}void Main\+Window\+::show\+Instructions (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [slot]}}\label{class_main_window_a146223deb707bcec634698b1bc4c09d4}
+
+
+a public slot that shows a new window with instructions when the \char`\"{}\+Instructions\char`\"{} button is clicked 
+
+
+\begin{DoxyParams}{Parameters}
+{\em none} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+none 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+mainwindow.\+h\item 
+mainwindow.\+cpp\end{DoxyCompactItemize}

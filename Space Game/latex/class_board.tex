@@ -1,0 +1,267 @@
+\hypertarget{class_board}{}\section{Board Class Reference}
+\label{class_board}\index{Board@{Board}}
+
+
+this class created the gameplay board and is called from the mainwindow.\+cpp file. it is used to draw every part of the game and contains code for the interactivity, etc. It uses board\+Objects.  
+
+
+
+
+{\ttfamily \#include $<$board.\+h$>$}
+
+Inheritance diagram for Board\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_board}
+\end{center}
+\end{figure}
+\subsection*{Public Slots}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_board_a711a36645658f88b901a7a56e4c337b2}{}void \hyperlink{class_board_a711a36645658f88b901a7a56e4c337b2}{update\+Asteroids} ()\label{class_board_a711a36645658f88b901a7a56e4c337b2}
+
+\begin{DoxyCompactList}\small\item\em this function updates the location of the asteroids and calls repaint to change the appearance on the screen. If the asteroids are at the bottom of the screen, then there will be a random call to create a new x value and the asteroid will begin again at the top of the screen at a new {\itshape random} x value \end{DoxyCompactList}\item 
+\hypertarget{class_board_a3e1657fb8d53189f72cec42f6850b9d6}{}void \hyperlink{class_board_a3e1657fb8d53189f72cec42f6850b9d6}{update\+Bullets} ()\label{class_board_a3e1657fb8d53189f72cec42f6850b9d6}
+
+\begin{DoxyCompactList}\small\item\em this function updates the location of the bullets and calls repaint to change where they appear on the screen. the function deals with the \hyperlink{class_board_object}{Board\+Object} type object and randomly creates a new x position that the bullet should be in, if it has reached the top of the screen. Otherwise, it increments upward the bullet\textquotesingle{}s position until it gets to the top. \end{DoxyCompactList}\item 
+\hypertarget{class_board_ae3436060171ad62d54618c41c33b13cb}{}void {\bfseries show\+Artifact} ()\label{class_board_ae3436060171ad62d54618c41c33b13cb}
+
+\item 
+void \hyperlink{class_board_a0ce81a138f6787ee6a6f26dcf23863fd}{game\+Over} (int which\+One)
+\begin{DoxyCompactList}\small\item\em this function calls close, which will delete the board and open a new mainwindow by returning control to mainwindow.\+cpp \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_board_a15bd5851edaa12360f7b69724a70be51}{}{\bfseries Board} (Q\+Widget $\ast$parent=0, size\+\_\+t ship\+Choice=1, size\+\_\+t difficulty=1)\label{class_board_a15bd5851edaa12360f7b69724a70be51}
+
+\item 
+void \hyperlink{class_board_ad521d810316bf6aefabcbb3c4cad316e}{paint\+Event} (Q\+Paint\+Event $\ast$e)
+\begin{DoxyCompactList}\small\item\em this is an overload of the paintevent functionality in the Qt namespace, and updates the locatin of the \hyperlink{class_board}{Board} Objects on the screen by changing where they appear on the grid layout. Different numbers are used so that when paint event is called, it doesn\textquotesingle{}t repaint everything again, just the thing that called it (hend why the which\+Pain\+Event value is always reset to zero before the Paint\+Event overload is exited. \end{DoxyCompactList}\item 
+void \hyperlink{class_board_a01d4cc6631ae9042fd1f83c58d6fec8f}{show\+Event} (Q\+Show\+Event $\ast$e)
+\begin{DoxyCompactList}\small\item\em overload of the showevent command in the Qt namespace \end{DoxyCompactList}\item 
+\hypertarget{class_board_a69e3222342a38b98d4d82522921164ba}{}void \hyperlink{class_board_a69e3222342a38b98d4d82522921164ba}{key\+Press\+Event} (Q\+Key\+Event $\ast$event)\label{class_board_a69e3222342a38b98d4d82522921164ba}
+
+\begin{DoxyCompactList}\small\item\em this defines what commands should be detected by the program from the keyboard or mouse all alphabetical key presses are valid as well as arrows, all others will have no affect \end{DoxyCompactList}\item 
+void \hyperlink{class_board_ab4edba581d2186597ffbc4840dce43a9}{update\+Ship} (int px, int py, int nx, int ny)
+\begin{DoxyCompactList}\small\item\em this function updates the location of the ship with the keys are pressed and the keyevent function calls this. repaint is needed to show the actual change on the screen. \end{DoxyCompactList}\item 
+bool \hyperlink{class_board_af53099c24648a602441d60e3259de6e5}{check\+Asteroid\+Collision} ()
+\begin{DoxyCompactList}\small\item\em this function checks to see whether the ship and an asteroid have collided \end{DoxyCompactList}\item 
+bool \hyperlink{class_board_a8b5a117638f0bbd5f8e258dbf077568a}{check\+Bullet\+Collision} ()
+\begin{DoxyCompactList}\small\item\em this function checks to see whether the ship and the bullet have collided \end{DoxyCompactList}\item 
+void \hyperlink{class_board_a57e9303a6198a6d5172625ffdcd44865}{catch\+Artifact} (char lettre)
+\begin{DoxyCompactList}\small\item\em is called if one of the alphabetical keys are pressed, and will bring the user closer to winning if they pressed the correct letter that is shown on the screen at the time they pressed the key. \end{DoxyCompactList}\item 
+void \hyperlink{class_board_a2132dc670c5193b0f935aeed4a4dac4e}{update\+Lives} ()
+\begin{DoxyCompactList}\small\item\em this function updates the life of the player. when there are no lives left the gam\+Over function gets called which deletes the object \end{DoxyCompactList}\item 
+\hypertarget{class_board_a68b2d6b83b977e033130b50deff4ac3b}{}void \hyperlink{class_board_a68b2d6b83b977e033130b50deff4ac3b}{game\+Won} ()\label{class_board_a68b2d6b83b977e033130b50deff4ac3b}
+
+\begin{DoxyCompactList}\small\item\em this function displays a notice that says \end{DoxyCompactList}\item 
+\hypertarget{class_board_a711b6c329ce90171a9a7967e37b40036}{}void {\bfseries game\+Lost} ()\label{class_board_a711b6c329ce90171a9a7967e37b40036}
+
+\item 
+void \hyperlink{class_board_a955576b1437a029aeb3a60bf4a2f8b3c}{make\+Board} (size\+\_\+t ship\+Choice, size\+\_\+t difficulty)
+\begin{DoxyCompactList}\small\item\em this function draws the game board out and contains all timers, etc needed to make the game work. \end{DoxyCompactList}\item 
+void \hyperlink{class_board_a2d42f2f0900ed9116452e144169b39c4}{make\+Board\+Again} (size\+\_\+t ship\+Choice, size\+\_\+t difficulty)
+\begin{DoxyCompactList}\small\item\em this is called when the user advances a level, by the function level\+Up. it is used to speed up objects and increase the amount of artifacts required. \end{DoxyCompactList}\item 
+\hypertarget{class_board_a4873fb5c9ca5b89d3d63ef5478f364b7}{}void \hyperlink{class_board_a4873fb5c9ca5b89d3d63ef5478f364b7}{level\+Up} ()\label{class_board_a4873fb5c9ca5b89d3d63ef5478f364b7}
+
+\begin{DoxyCompactList}\small\item\em this function will level up the game to make it more difficult. it is called by the collect artifact function which monitors how many of the artifacts have been collected \end{DoxyCompactList}\item 
+\hypertarget{class_board_a58ce50ac6993078d8cd9efb8417a0dc2}{}void \hyperlink{class_board_a58ce50ac6993078d8cd9efb8417a0dc2}{level\+Up\+Alert} ()\label{class_board_a58ce50ac6993078d8cd9efb8417a0dc2}
+
+\begin{DoxyCompactList}\small\item\em this function displays an alert that the user has leveled up, and is called by the level\+Up function. After this warning, the game speeds up. \end{DoxyCompactList}\item 
+\hypertarget{class_board_af73f45730119a1fd8f6670f53f959e68}{}\hyperlink{class_board_af73f45730119a1fd8f6670f53f959e68}{$\sim$\+Board} ()\label{class_board_af73f45730119a1fd8f6670f53f959e68}
+
+\begin{DoxyCompactList}\small\item\em board destructor should delete all memory it creates, meaning delete needs to be called on all manually created memory which is various polymorhpic objects of \hyperlink{class_board_object}{Board\+Object} class \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+this class created the gameplay board and is called from the mainwindow.\+cpp file. it is used to draw every part of the game and contains code for the interactivity, etc. It uses board\+Objects. 
+
+\subsection{Member Function Documentation}
+\hypertarget{class_board_a57e9303a6198a6d5172625ffdcd44865}{}\index{Board@{Board}!catch\+Artifact@{catch\+Artifact}}
+\index{catch\+Artifact@{catch\+Artifact}!Board@{Board}}
+\subsubsection[{catch\+Artifact}]{\setlength{\rightskip}{0pt plus 5cm}void Board\+::catch\+Artifact (
+\begin{DoxyParamCaption}
+\item[{char}]{lettre}
+\end{DoxyParamCaption}
+)}\label{class_board_a57e9303a6198a6d5172625ffdcd44865}
+
+
+is called if one of the alphabetical keys are pressed, and will bring the user closer to winning if they pressed the correct letter that is shown on the screen at the time they pressed the key. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em lettre} & (french, not a typo) is the letter that the user pressed, which is compared to the letter that the iterator is pointing to currently. \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_board_af53099c24648a602441d60e3259de6e5}{}\index{Board@{Board}!check\+Asteroid\+Collision@{check\+Asteroid\+Collision}}
+\index{check\+Asteroid\+Collision@{check\+Asteroid\+Collision}!Board@{Board}}
+\subsubsection[{check\+Asteroid\+Collision}]{\setlength{\rightskip}{0pt plus 5cm}bool Board\+::check\+Asteroid\+Collision (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{class_board_af53099c24648a602441d60e3259de6e5}
+
+
+this function checks to see whether the ship and an asteroid have collided 
+
+
+\begin{DoxyParams}{Parameters}
+{\em none} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+is boolean type true if there was a collision and false if there wasn\textquotesingle{}t 
+\end{DoxyReturn}
+\hypertarget{class_board_a8b5a117638f0bbd5f8e258dbf077568a}{}\index{Board@{Board}!check\+Bullet\+Collision@{check\+Bullet\+Collision}}
+\index{check\+Bullet\+Collision@{check\+Bullet\+Collision}!Board@{Board}}
+\subsubsection[{check\+Bullet\+Collision}]{\setlength{\rightskip}{0pt plus 5cm}bool Board\+::check\+Bullet\+Collision (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{class_board_a8b5a117638f0bbd5f8e258dbf077568a}
+
+
+this function checks to see whether the ship and the bullet have collided 
+
+
+\begin{DoxyParams}{Parameters}
+{\em none} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+is boolean type true if there was a collision and false if there wasn\textquotesingle{}t 
+\end{DoxyReturn}
+\hypertarget{class_board_a0ce81a138f6787ee6a6f26dcf23863fd}{}\index{Board@{Board}!game\+Over@{game\+Over}}
+\index{game\+Over@{game\+Over}!Board@{Board}}
+\subsubsection[{game\+Over}]{\setlength{\rightskip}{0pt plus 5cm}void Board\+::game\+Over (
+\begin{DoxyParamCaption}
+\item[{int}]{which\+One}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [slot]}}\label{class_board_a0ce81a138f6787ee6a6f26dcf23863fd}
+
+
+this function calls close, which will delete the board and open a new mainwindow by returning control to mainwindow.\+cpp 
+
+
+\begin{DoxyParams}{Parameters}
+{\em which\+One} & informs the function whether the game is over because the user won or lost, and displays the appropriate message \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_board_a955576b1437a029aeb3a60bf4a2f8b3c}{}\index{Board@{Board}!make\+Board@{make\+Board}}
+\index{make\+Board@{make\+Board}!Board@{Board}}
+\subsubsection[{make\+Board}]{\setlength{\rightskip}{0pt plus 5cm}void Board\+::make\+Board (
+\begin{DoxyParamCaption}
+\item[{size\+\_\+t}]{ship\+Choice, }
+\item[{size\+\_\+t}]{difficulty}
+\end{DoxyParamCaption}
+)}\label{class_board_a955576b1437a029aeb3a60bf4a2f8b3c}
+
+
+this function draws the game board out and contains all timers, etc needed to make the game work. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em ship\+Choice} & is used to select the appropriate ship \\
+\hline
+{\em difficulty} & is used to set the speed of the asteroid and bullets. \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_board_a2d42f2f0900ed9116452e144169b39c4}{}\index{Board@{Board}!make\+Board\+Again@{make\+Board\+Again}}
+\index{make\+Board\+Again@{make\+Board\+Again}!Board@{Board}}
+\subsubsection[{make\+Board\+Again}]{\setlength{\rightskip}{0pt plus 5cm}void Board\+::make\+Board\+Again (
+\begin{DoxyParamCaption}
+\item[{size\+\_\+t}]{ship\+Choice, }
+\item[{size\+\_\+t}]{difficulty}
+\end{DoxyParamCaption}
+)}\label{class_board_a2d42f2f0900ed9116452e144169b39c4}
+
+
+this is called when the user advances a level, by the function level\+Up. it is used to speed up objects and increase the amount of artifacts required. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em ship\+Choice} & is used to make sure the ship choice is the same, but not needed \\
+\hline
+{\em difficulty} & is the new difficulty that will be used to update the speeds and overall difficulty of everything \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_board_ad521d810316bf6aefabcbb3c4cad316e}{}\index{Board@{Board}!paint\+Event@{paint\+Event}}
+\index{paint\+Event@{paint\+Event}!Board@{Board}}
+\subsubsection[{paint\+Event}]{\setlength{\rightskip}{0pt plus 5cm}void Board\+::paint\+Event (
+\begin{DoxyParamCaption}
+\item[{Q\+Paint\+Event $\ast$}]{e}
+\end{DoxyParamCaption}
+)}\label{class_board_ad521d810316bf6aefabcbb3c4cad316e}
+
+
+this is an overload of the paintevent functionality in the Qt namespace, and updates the locatin of the \hyperlink{class_board}{Board} Objects on the screen by changing where they appear on the grid layout. Different numbers are used so that when paint event is called, it doesn\textquotesingle{}t repaint everything again, just the thing that called it (hend why the which\+Pain\+Event value is always reset to zero before the Paint\+Event overload is exited. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em e} & is nothing, just required by overload definition of this function. \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_board_a01d4cc6631ae9042fd1f83c58d6fec8f}{}\index{Board@{Board}!show\+Event@{show\+Event}}
+\index{show\+Event@{show\+Event}!Board@{Board}}
+\subsubsection[{show\+Event}]{\setlength{\rightskip}{0pt plus 5cm}void Board\+::show\+Event (
+\begin{DoxyParamCaption}
+\item[{Q\+Show\+Event $\ast$}]{e}
+\end{DoxyParamCaption}
+)}\label{class_board_a01d4cc6631ae9042fd1f83c58d6fec8f}
+
+
+overload of the showevent command in the Qt namespace 
+
+
+\begin{DoxyParams}{Parameters}
+{\em e} & is just required by definition of the overload \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_board_a2132dc670c5193b0f935aeed4a4dac4e}{}\index{Board@{Board}!update\+Lives@{update\+Lives}}
+\index{update\+Lives@{update\+Lives}!Board@{Board}}
+\subsubsection[{update\+Lives}]{\setlength{\rightskip}{0pt plus 5cm}void Board\+::update\+Lives (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{class_board_a2132dc670c5193b0f935aeed4a4dac4e}
+
+
+this function updates the life of the player. when there are no lives left the gam\+Over function gets called which deletes the object 
+
+\begin{DoxyReturn}{Returns}
+void because it\textquotesingle{}s only an operations function 
+\end{DoxyReturn}
+\hypertarget{class_board_ab4edba581d2186597ffbc4840dce43a9}{}\index{Board@{Board}!update\+Ship@{update\+Ship}}
+\index{update\+Ship@{update\+Ship}!Board@{Board}}
+\subsubsection[{update\+Ship}]{\setlength{\rightskip}{0pt plus 5cm}void Board\+::update\+Ship (
+\begin{DoxyParamCaption}
+\item[{int}]{px, }
+\item[{int}]{py, }
+\item[{int}]{nx, }
+\item[{int}]{ny}
+\end{DoxyParamCaption}
+)}\label{class_board_ab4edba581d2186597ffbc4840dce43a9}
+
+
+this function updates the location of the ship with the keys are pressed and the keyevent function calls this. repaint is needed to show the actual change on the screen. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em px} & is the old x \\
+\hline
+{\em py} & is the old y \\
+\hline
+{\em nx} & is the new x \\
+\hline
+{\em ny} & is the new y \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+is none 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+board.\+h\item 
+board.\+cpp\end{DoxyCompactItemize}

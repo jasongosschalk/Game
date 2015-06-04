@@ -1,19 +1,15 @@
 <RCC>
     <qresource prefix="/images">
-        <file>hillary.bmp</file>
-        <file>obama.bmp</file>
-        <file>bush.bmp</file>
-        <file>palin.bmp</file>
-        <file>heart.jpg</file>
-        <file>asteroid.jpg</file>
-        <file>sagan.jpg</file>
-        <file>enterprise.jpg</file>
-        <file>asteroid.png</file>
-        <file>enterprise.png</file>
-        <file>heart.png</file>
-        <file>sagan.png</file>
-        <file>putin.jpg</file>
-        <file>space.jpg</file>
-        <file>bullet.png</file>
+        <file>images/asteroid.png</file>
+        <file>images/bullet.png</file>
+        <file>images/bush.bmp</file>
+        <file>images/enterprise.png</file>
+        <file>images/heart.png</file>
+        <file>images/hillary.bmp</file>
+        <file>images/obama.bmp</file>
+        <file>images/palin.bmp</file>
+        <file>images/putin.jpg</file>
+        <file>images/sagan.png</file>
+        <file>images/space.jpg</file>
     </qresource>
 </RCC>

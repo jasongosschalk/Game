@@ -6,7 +6,7 @@
 
 
 /**
-    @class  this class handles the asteroids: where they are on the screen and how long they are on the screen
+    @class  BoardObject class handles the asteroids: where they are on the screen and how long they are on the screen
     @brief this class contains the code required for everything having to do with objects on the board, including their location.*/
 class BoardObject
 {

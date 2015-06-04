@@ -1,0 +1,13 @@
+this is the documentation file for the Game.\+pro Qt program \begin{DoxyAuthor}{Author}
+Jason Gosschalk 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+June 2015 
+\end{DoxyDate}
+\begin{DoxyVersion}{Version}
+1.\+0 
+\end{DoxyVersion}
+\hypertarget{index_label_introduction}{}\section{This game is based on the idea that politicians are ruining the world which is probably pretty accurate.}\label{index_label_introduction}
+The asteroids and bullets are the \char`\"{}debris\char`\"{} that the player must avoid in order to survive. Every time there is a collision with an object, the user loses a life. There are small letters that will be moving down the screen, when visible, the user needs to click the letter on the keyboard. When all of those letters have been collected, the game gets more difficult (asteroids, bullets speed up)$>$ Every time the level increments, the user gets their lives refreshed. \hypertarget{index_label_difficulties}{}\section{There were some major revelations had during the making of this game.  Useful resources that can be pulled from this game include\+:}\label{index_label_difficulties}
+the ability to lose the game and return to the main screen. Another difficulty was the refreshing methods -- instead of putting things into thepaint\+Event() function, which can cause a recursive error, that code needs to be put in another function that calls paint\+Event() to repaint the screen. Another important thing is the incrementation of the game, which I tried to create a new object but then realized it was only possible to update what already existed. \hypertarget{index_label_conclusion}{}\section{This game probably looks simple,}\label{index_label_conclusion}
+but actual tears went in to fixing errors that caused it to crash and not be the worst game ever. If anyone can actually win this game, I will be amazed. 

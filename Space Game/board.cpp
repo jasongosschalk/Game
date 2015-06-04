@@ -44,7 +44,7 @@ void Board::makeBoard(size_t shipChoice, size_t difficulty){
     //input in the image of Hillary texting
     QLabel *hillaryLabel = new QLabel;
     hillaryLabel->setScaledContents(true);
-    QPixmap hillary(":/images/hillary.bmp");
+    QPixmap hillary(":/images/images/hillary.bmp");
     hillaryLabel->setPixmap(hillary);
     ++numberEnemies;
     hillaryLabel->setFixedSize(130,100);
@@ -53,7 +53,7 @@ void Board::makeBoard(size_t shipChoice, size_t difficulty){
     //input image of obama taking a selfie
     QLabel *obamaLabel = new QLabel;
     obamaLabel->setScaledContents(true);
-    QPixmap obama(":/images/obama.bmp");
+    QPixmap obama(":/images/images/obama.bmp");
     obamaLabel->setPixmap(obama);
     ++numberEnemies;
     obamaLabel->setFixedSize(150,100);
@@ -62,7 +62,7 @@ void Board::makeBoard(size_t shipChoice, size_t difficulty){
     //input image of bush and his painting of a dog
     QLabel *bushLabel = new QLabel;
     bushLabel->setScaledContents(true);
-    QPixmap bush(":/images/bush.bmp");
+    QPixmap bush(":/images/images/bush.bmp");
     bushLabel->setPixmap(bush);
     ++numberEnemies;
     bushLabel->setFixedSize(150,100);
@@ -71,7 +71,7 @@ void Board::makeBoard(size_t shipChoice, size_t difficulty){
     //input image of fey and poehler on SNL
     QLabel *palinLabel = new QLabel;
     palinLabel->setScaledContents(true);
-    QPixmap palin(":/images/palin.bmp");
+    QPixmap palin(":/images/images/palin.bmp");
     palinLabel->setPixmap(palin);
     palinLabel->setFixedSize(150,100);
     enemies->addWidget(palinLabel);
@@ -93,7 +93,7 @@ void Board::makeBoard(size_t shipChoice, size_t difficulty){
 
     //create asteroids
     //instructs to create a boardSize*BoardSize grid
-    asteroid.load(":/images/asteroid.png");             //opens the image of the asteroid
+    asteroid.load(":/images/images/asteroid.png");             //opens the image of the asteroid
     gamePlayLabel = new QLabel*[boardSize*boardSize];   //creates an array of labels
 
 
@@ -125,7 +125,7 @@ void Board::makeBoard(size_t shipChoice, size_t difficulty){
 
 
     //create the bullet that will move up the screen
-    bullet.load(":/images/bullet.png");
+    bullet.load(":/images/images/bullet.png");
     int number = rand() % 9 + 1; //is ten because the board is only ten units by ten units
     bulletLocations.push_back(new Bullets(number, 9));  //always start at bottom, random x value
 
@@ -192,10 +192,10 @@ void Board::makeBoard(size_t shipChoice, size_t difficulty){
     //this is dependent on user choice
     QString shipName;   //local variable to handle different file names
     if(shipChoice == 1){    //if the enterprise was selected
-        shipName = ":/images/enterprise.png";
+        shipName = ":/images/images/enterprise.png";
     }
     if(shipChoice == 2){    //if the cosmos ship was selected
-        shipName = ":/images/sagan.png";
+        shipName = ":/images/images/sagan.png";
     }
     shipPic.load(shipName); //sets the ship to be the user's choice
     shipPosition = new Ship(0,9);   //default sets the ship to be in the lower left position
@@ -213,7 +213,7 @@ void Board::makeBoard(size_t shipChoice, size_t difficulty){
     bottom->setFixedHeight(70);
     bottomInfo = new QGridLayout(bottom);  //for the lives
     lives = new QLabel*[lifeCount];    //, a pointer of pointers or the loop doesnt work
-    heart.load(":/images/heart.png");
+    heart.load(":/images/images/heart.png");
     livesDescription = new QLabel;
     livesDescription->setText("<font size = 8><font color = white>Lives:</font>");
     bottomInfo->addWidget(livesDescription, 1, 1);
